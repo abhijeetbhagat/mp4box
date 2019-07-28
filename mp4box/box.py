@@ -17,3 +17,7 @@ class FileTypeBox(Box):
         self.major_brand = major_brand
         self.minor_brand = minor_version
         self.compatible_brands = compatible_brands
+
+class MovieTypeBox(Box):
+    def __init__(self, size: int):
+        super().__init__(size, 'moov')
