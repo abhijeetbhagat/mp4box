@@ -21,3 +21,17 @@ class FileTypeBox(Box):
 class MovieTypeBox(Box):
     def __init__(self, size: int):
         super().__init__(size, 'moov')
+
+class MovieHeaderBox(FullBox):
+    def __init__(v: int, f: int):
+        super().__init__(size, 'mvhd', 0, v, f)
+        self.creation_time = 0
+        self.modification_time = 0
+        self.timescale = 0
+        self.duration = 0
+        self.rate = 0x00010000
+        self.volume = 0x0100
+        self.reserved = 0
+        self.matrix = [0x00010000,0,0,0,0x00010000,0,0,0,0x40000000]
+        self.predefined = []
+        self.next_track_id = 0
