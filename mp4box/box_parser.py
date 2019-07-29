@@ -30,8 +30,8 @@ class BoxParser:
         major_brand = self.reader.read32_as_str()
         minor_version = self.reader.read32()
         compatible_brands = []
-        cnt = size - 16
-        while cnt < size - 4:
+        cnt = 0
+        while cnt < size + 4 - 16 - 4:
             compatible_brands.append(self.reader.read32_as_str())
             cnt += 4
         box = FileTypeBox(size, major_brand, minor_version, compatible_brands)
