@@ -1,3 +1,6 @@
+from mp4box.utils.stream_reader import StreamReader
+from mp4box.box_parser import BoxParser
+
 #TODO import MultiStreamBuffer 
 class ISOFile:
     class Track:
@@ -20,7 +23,7 @@ class ISOFile:
     
 
     def __init__(self, stream):
-        self.stream = stream if stream else MultiStreamBuffer()
+        #self.stream = stream if stream else StreamReader()
         self.boxes = []
         self.mdats = []
         self.moofs = []
@@ -41,6 +44,7 @@ class ISOFile:
         self.item_list_built = False
         self.on_sidx = None
         self.sidx_sent = False
+        self.box_parser = BoxParser(file)
 
     def set_segment_options(self, id, user, options):
         trak = self.get_track_id(id)
@@ -83,4 +87,4 @@ class ISOFile:
         self.extracted_tracks.pop(index)
 
     def parse(self):
-        pass
+        self.box_parser.parse()

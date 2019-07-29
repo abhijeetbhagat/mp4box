@@ -1,5 +1,5 @@
 class Box:
-    def __init__(self, size: int, box_type: str, uuid):
+    def __init__(self, size: int, box_type: str, uuid = 0):
         self.size = size
         self.type = box_type
         self.uuid = uuid
