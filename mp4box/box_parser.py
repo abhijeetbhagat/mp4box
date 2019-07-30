@@ -1,4 +1,6 @@
 from mp4box.box import FileTypeBox
+from mp4box.box import MovieBox
+from mp4box.box import FreeSpaceBox
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.utils.exceptions import InvalidBoxError
 
@@ -15,6 +17,10 @@ class BoxParser:
                 self.parse_ftyp(size)
             elif type == 'moov':
                 self.parse_moov(size)
+            elif type == 'mvhd':
+                self.parse_mvhd(size)
+            elif type == 'free':
+                self.parse_free(size)
             else:
                 raise InvalidBoxError("type %s unknown" % type, None)
             if self.reader.reached_eof():
@@ -38,7 +44,15 @@ class BoxParser:
         self.boxes['ftyp'] = box
 
     def parse_moov(self, size):
-        pass
+        while True:
+            pass
+        box = MovieBox(size)
+        self.boxes['moov'] = box
+        
+    def parse_free(self, size):
+        data = self.reader.readn(size - 4)
+        box = FreeSpaceBox(size, data)
+        self.boxes['free'] = box
 
     def get_boxes(self):
         return self.boxes

@@ -18,12 +18,12 @@ class FileTypeBox(Box):
         self.minor_brand = minor_version
         self.compatible_brands = compatible_brands
 
-class MovieTypeBox(Box):
+class MovieBox(Box):
     def __init__(self, size: int):
         super().__init__(size, 'moov')
 
 class MovieHeaderBox(FullBox):
-    def __init__(v: int, f: int):
+    def __init__(self, size: int, v: int, f: int):
         super().__init__(size, 'mvhd', 0, v, f)
         self.creation_time = 0
         self.modification_time = 0
@@ -35,3 +35,10 @@ class MovieHeaderBox(FullBox):
         self.matrix = [0x00010000,0,0,0,0x00010000,0,0,0,0x40000000]
         self.predefined = []
         self.next_track_id = 0
+
+class FreeSpaceBox(Box):
+    def __init__(self, size: int, data: [int]):
+        super().__init__(size, 'free')
+        #TODO abhi: this probably contains printable chars? How do we treat
+        #this array of bytes
+        self.data = data

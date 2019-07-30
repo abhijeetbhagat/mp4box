@@ -23,6 +23,19 @@ class TestBoxParser(unittest.TestCase):
             boxes = bp.get_boxes()
             self.assertIsNot(boxes['ftyp'], None) 
 
+    def test_free(self):
+         with  TemporaryFile() as f:
+
+            f.write((b"\x00\x00\x00\x45\x66\x72\x65\x65\x49\x73\x6f\x4d\x65\x64\x69\x61\x20\x46\x69\x6c\x65\x20"
+                     b"\x50\x72\x6f\x64\x75\x63\x65\x64\x20\x77\x69\x74\x68\x20\x47\x50\x41\x43\x20\x30\x2e\x38\x2e"
+                     b"\x30\x2d\x72\x65\x76\x39\x2d\x67\x36\x65\x34\x61\x66\x30\x35\x62\x2d\x6d\x61\x73\x74\x65\x72"
+                     b"\x00\x00\x00\x02\xd6"))
+            f.seek(0)
+            bp = BoxParser(f)
+            bp.parse()
+            boxes = bp.get_boxes()
+            self.assertIsNot(boxes['free'], None) 
+
 if __name__ == "__main__":
     unittest.main()
 

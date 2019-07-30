@@ -19,6 +19,9 @@ class StreamReader:
     def read32_as_str(self):
         return self.stream.read(4)[0:].decode('utf-8')
 
+    def readn(self, n: int):
+        return self.stream.read(n)
+
     def reached_eof(self):
         #TODO abhi: should calculate size of the file in the ctor and
         #check if tell() has crossed it
