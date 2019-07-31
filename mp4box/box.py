@@ -42,3 +42,20 @@ class FreeSpaceBox(Box):
         #TODO abhi: this probably contains printable chars? How do we treat
         #this array of bytes
         self.data = data
+
+class TrackHeaderBox(FullBox):
+    def __init__(self, size: int, v: int, f: int):
+        super().__init__(size, 'tkhd', 0, v, f)
+        self.creation_time = 0
+        self.modification_time = 0
+        self.track_id = 0
+        self.reserved1 = 0
+        self.duration = 0
+        self.reserved2 = []
+        self.layer = 0
+        self.alternate_group = 0
+        self.volume = 0
+        self.reserved3 = 0
+        self.matrix = [0x00010000,0,0,0,0x00010000,0,0,0,0x40000000]
+        self.width = 0
+        self.height = 0

@@ -11,19 +11,26 @@ class StreamReader:
     #    self.stream.close()
 
     def read8(self):
-        return self.stream.read(1)
+        #TODO abhi: umm do we need to do this?
+        return int.from_bytes(self.stream.read(1), "big")
+
+    def read16(self):
+        return int.from_bytes(self.stream.read(2), "big")
 
     def read32(self):
         return int.from_bytes(self.stream.read(4), "big")
 
-    def read64(self):
-        return int.from_bytes(self.stream.read(8), "big")
-
     def read32_as_str(self):
         return self.stream.read(4)[0:].decode('utf-8')
 
+    def read64(self):
+        return int.from_bytes(self.stream.read(8), "big") 
+
     def readn(self, n: int):
         return self.stream.read(n)
+
+    def readn_as_int(self, n: int):
+        return int.from_bytes(self.stream.read(n), "big")
 
     def skip(self, n: int):
         self.stream.read(n)

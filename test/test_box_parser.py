@@ -50,6 +50,20 @@ class TestBoxParser(unittest.TestCase):
             self.assertIsNot(boxes['unknown']['mvhd'], None) 
             self.assertEqual(boxes['unknown']['mvhd'].next_track_id, 3) 
 
+    def test_tkhd(self):
+        with TemporaryFile() as f:
+            f.write(b"\x00\x00\x00\x5c\x74\x6b\x68\x64\x00\x00\x00\x01\xc1\x02\x17\x13\xc1\x02\x17\x64\x00\x00\x00\x02\x00\x00\x00\x00"
+                    b"\x00\x00\x49\xe8\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00"
+                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x00\x00\x00\x01\x40\x00\x00\x00\xf0\x00\x00")
+            f.seek(0)
+            bp = BoxParser(f)
+            bp.parse()
+            boxes = bp.get_boxes()
+            self.assertNotEqual(boxes['unknown']['tkhd'], None)
+            self.assertEqual(boxes['unknown']['tkhd'].duration, 18920)
+            self.assertEqual(boxes['unknown']['tkhd'].width, 320)
+            self.assertEqual(boxes['unknown']['tkhd'].height, 240)
+
 if __name__ == "__main__":
     unittest.main()
 
