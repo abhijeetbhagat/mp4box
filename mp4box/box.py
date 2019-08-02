@@ -69,3 +69,37 @@ class MediaHeaderBox(FullBox):
         self.duration = 0
         self.pad = 0
         self.language = ''
+
+class TimeToSampleBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stts', 0, v, f)
+        self.entry_count = 0
+        self.sample_count = []
+        self.sample_delta = []
+
+class SyncSampleBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stss', 0, v, f)
+        self.entry_count = 0
+        self.sample_number = []
+
+class SampleToChunkBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stsc', 0, v, f)
+        self.entry_count = 0
+        self.first_chunk = []
+        self.samples_per_chunk = []
+        self.sample_description_index = []
+ 
+ class SampleSizeBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stsz', 0, v, f)
+        self.sample_size = 0
+        self.sample_count = 0
+        self.entry_size = []
+
+ class ChunkOffsetBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stco', 0, v, f)
+        self.entry_count = 0
+        self.chunk_offset = []
