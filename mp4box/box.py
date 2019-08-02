@@ -57,5 +57,15 @@ class TrackHeaderBox(FullBox):
         self.volume = 0
         self.reserved3 = 0
         self.matrix = [0x00010000,0,0,0,0x00010000,0,0,0,0x40000000]
-        self.width = 0
-        self.height = 0
+        self.width = 0.0
+        self.height = 0.0
+
+class MediaHeaderBox(FullBox):
+    def __init__(self, size: int, v: int, f: int):
+        super().__init__(size, 'mdhd', 0, v, f)
+        self.creation_time = 0
+        self.modification_time = 0
+        self.timescale = 0
+        self.duration = 0
+        self.pad = 0
+        self.language = ''

@@ -3,6 +3,7 @@ from mp4box.box import MovieBox
 from mp4box.box import FreeSpaceBox
 from mp4box.box import MovieHeaderBox
 from mp4box.box import TrackHeaderBox
+from mp4box.box import MediaHeaderBox
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.utils.exceptions import InvalidBoxError
 
@@ -23,6 +24,8 @@ class BoxParser:
                 self.parse_mvhd(size)
             elif type == 'tkhd':
                 self.parse_tkhd(size)
+            elif type == 'mdhd':
+                self.parse_mdhd(size)
             elif type == 'free':
                 self.parse_free(size)
             else:
@@ -104,12 +107,40 @@ class BoxParser:
         box.volume = 0
         box.reserved3 = self.reader.read16()
         self.reader.skip(36)
+        #TODO abhi - width and height values are stored as fixed point 16.16 values
+        #not sure how to convert that to float at this point in time. But reading 
+        #the first 16 bits and treating them as a value does the job.
         box.width = self.reader.read16()
         self.reader.skip(2)
         box.height = self.reader.read16()
         self.reader.skip(2)
         self.boxes['unknown'] = {}
         self.boxes['unknown']['tkhd'] = box 
+
+    def parse_mdhd(self, size): 
+
+        version = self.reader.read32()
+        box = MediaHeaderBox(size, version, 0)
+        if version == 0:
+            box.creation_time = self.reader.read32()
+            box.modification_time = self.reader.read32()
+            box.timescale = self.reader.read32()
+            box.duration = self.reader.read32() 
+        else:
+            box.creation_time = self.reader.read64()
+            box.modification_time = self.reader.read64()
+            box.timescale = self.reader.read32()
+            box.duration = self.reader.read64()
+        
+        data = self.reader.readn_as_int(2)
+        box.pad = (data >> 15) & 1
+        language = data & 0x7fff
+        box.language = chr(97 + (language >> 10) - 1 %97) + \
+                       chr(97 + (language >> 5 & 0x1f) - 1 % 97) + \
+                       chr(97 + (language & 0x1f) - 1 % 97)
+        box.predefined = self.reader.read16()
+        self.boxes['unknown'] = {}
+        self.boxes['unknown']['mdhd'] = box 
  
     def get_boxes(self):
         return self.boxes
