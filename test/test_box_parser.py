@@ -78,6 +78,24 @@ class TestBoxParser(unittest.TestCase):
             self.assertEqual(boxes['unknown']['mdhd'].pad, 0)
             self.assertEqual(boxes['unknown']['mdhd'].language, 'eng')
 
+
+    def test_video_hdlr(self):
+        with TemporaryFile() as f:
+            #f.write(b'\x00\x00\x00\x35\x68\x64\x6c\x72\x00\x00\x00\x00\x00\x00\x00\x00'
+            #        b'\x73\x6f\x75\x6e\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xc6\xbb\xb9\xfb\xc9\xf9\xc6\xb5\xc3\xbd\xcc\xe5\xb4\xa6\xc0\xed\xb3\xcc\xd0\xf2\x00')
+
+            f.write(b'\x00\x00\x00\x44\x68\x64\x6c\x72\x00\x00\x00\x00\x00\x00'
+                    b'\x00\x00\x76\x69\x64\x65\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x32\x36\x34\x40\x47\x50\x41\x43\x30\x2e\x38\x2e\x30\x2d\x72\x65\x76\x39\x2d\x67\x36'
+                    b'\x65\x34\x61\x66\x30\x35\x62\x2d\x6d\x61\x73\x74\x65\x72\x00')
+            f.seek(0)
+            bp = BoxParser(f)
+            bp.parse()
+            boxes = bp.get_boxes()
+            self.assertNotEqual(boxes['unknown']['hdlr'], None)
+            self.assertEqual(boxes['unknown']['hdlr'].handler_type, 'vide')
+            self.assertEqual(boxes['unknown']['hdlr'].name, '264@GPAC0.8.0-rev9-g6e4af05b-master\x00')
+
+
 if __name__ == "__main__":
     unittest.main()
 
