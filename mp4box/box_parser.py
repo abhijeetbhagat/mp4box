@@ -4,6 +4,13 @@ from mp4box.box import FreeSpaceBox
 from mp4box.box import MovieHeaderBox
 from mp4box.box import TrackHeaderBox
 from mp4box.box import MediaHeaderBox
+from mp4box.box import TimeToSampleBox
+from mp4box.box import SyncSampleBox
+from mp4box.box import SampleToChunkBox
+from mp4box.box import SampleSizeBox
+from mp4box.box import ChunkOffsetBox
+from mp4box.box import BitRateBox
+from mp4box.box import HandlerBox
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.utils.exceptions import InvalidBoxError
 
@@ -26,6 +33,12 @@ class BoxParser:
                 self.parse_tkhd(size)
             elif type == 'mdhd':
                 self.parse_mdhd(size)
+            elif type == 'stts':
+                self.parse_stts(size)
+            elif type == 'stss':
+                self.parse_stss(size)
+            elif type == 'hdlr':
+                self.parse_hdlr(size)
             elif type == 'free':
                 self.parse_free(size)
             else:
@@ -118,7 +131,6 @@ class BoxParser:
         self.boxes['unknown']['tkhd'] = box 
 
     def parse_mdhd(self, size): 
-
         version = self.reader.read32()
         box = MediaHeaderBox(size, version, 0)
         if version == 0:
@@ -141,6 +153,62 @@ class BoxParser:
         box.predefined = self.reader.read16()
         self.boxes['unknown'] = {}
         self.boxes['unknown']['mdhd'] = box 
+
+    def parse_stts(self, size):
+        entry_count = self.reader.read32()
+        box = TimeToSampleBox(size, 0, 0)
+        box.entry_count = entry_count
+        for _ in range(0, entry_count):
+            box.sample_count.append(self.reader.read32())
+            box.sample_delta.append(self.reader.read32())
+
+    def parse_stss(self, size):
+        entry_count = self.reader.read32()
+        box = SyncSampleBox(size, 0, 0)
+        box.entry_count = entry_count
+        for _ in range(0, entry_count):
+            box.sample_number.append(self.reader.read32())
+
+    def parse_stsc(self, size):
+        entry_count = self.reader.read32()
+        box = SampleToChunkBox(size, 0, 0)
+        box.entry_count = entry_count
+        for _ in range(0, entry_count):
+            box.first_chunk.append(self.reader.read32())
+            box.samples_per_chunk.append(self.reader.read32())
+            box.sample_description_index.append(self.reader.read32())
  
+    def parse_stsz(self, size):
+        box = SampleSizeBox(size, 0, 0)
+        box.sample_size = self.reader.read32()
+        box.sample_count = self.reader.read32()
+        if box.sample_size:
+            for _ in range(0, box.sample_count):
+                box.entry_size.append(self.reader.read32())
+
+    def parse_stco(self, size):
+        box = ChunkOffsetBox(size, 0, 0)
+        box.entry_count = self.reader.read32()
+        for _ in range(0, box.entry_count):
+            box.chunk_offset.append(self.reader.read32())
+
+    def parse_btrt(self, size):
+        box = BitRateBox(size)
+        box.buffer_size_db = self.reader.read32()
+        box.max_bitrate = self.reader.read32()
+        box.avg_bitrate = self.reader.read32()
+
+    def parse_hdlr(self, size):
+        version = self.reader.read32()
+        box = HandlerBox(size, version, 0)
+        box.predefined = self.reader.read32()
+        box.handler_type = self.reader.read32_as_str()
+        box.reserved.append(self.reader.read32())
+        box.reserved.append(self.reader.read32())
+        box.reserved.append(self.reader.read32())
+        box.name = self.reader.readn_as_str(size - 32)
+        self.boxes['unknown'] = {}
+        self.boxes['unknown']['hdlr'] = box 
+        
     def get_boxes(self):
         return self.boxes
