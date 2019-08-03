@@ -91,15 +91,30 @@ class SampleToChunkBox(FullBox):
         self.samples_per_chunk = []
         self.sample_description_index = []
  
- class SampleSizeBox(FullBox):
+class SampleSizeBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'stsz', 0, v, f)
         self.sample_size = 0
         self.sample_count = 0
         self.entry_size = []
 
- class ChunkOffsetBox(FullBox):
+class ChunkOffsetBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'stco', 0, v, f)
         self.entry_count = 0
         self.chunk_offset = []
+
+class BitRateBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'btrt')
+        self.buffer_size_db = 0
+        self.max_bitrate = 0
+        self.avg_bitrate = 0
+
+class HandlerBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'hdlr', 0, v, f)
+        self.predefined = 0
+        self.handler_type = 0
+        self.reserved = []
+        self.name = ''
