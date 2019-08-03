@@ -21,7 +21,7 @@ class StreamReader:
         return int.from_bytes(self.stream.read(4), "big")
 
     def read32_as_str(self):
-        return self.stream.read(4)[0:].decode('utf-8')
+        return str(self.stream.read(4)[0:], 'utf-8')
 
     def read64(self):
         return int.from_bytes(self.stream.read(8), "big") 
@@ -31,6 +31,9 @@ class StreamReader:
 
     def readn_as_int(self, n: int):
         return int.from_bytes(self.stream.read(n), "big")
+
+    def readn_as_str(self, n):
+        return str(self.stream.read(n)[0:], 'utf-8', 'ignore')
 
     def skip(self, n: int):
         self.stream.read(n)
