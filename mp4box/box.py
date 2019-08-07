@@ -127,3 +127,9 @@ class EditListBox(FullBox):
         self.media_time = []
         self.media_rate_integer = []
         self.media_rate_fraction = []
+
+class VideoMediaHeaderBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'vmhd', 0, v, f)
+        self.graphics_mode = 0
+        self.opcolor = []
