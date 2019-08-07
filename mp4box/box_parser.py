@@ -11,12 +11,15 @@ from mp4box.box import SampleSizeBox
 from mp4box.box import ChunkOffsetBox
 from mp4box.box import BitRateBox
 from mp4box.box import HandlerBox
+from mp4box.box import EditListBox
+from mp4box.box import VideoMediaHeaderBox
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.utils.exceptions import InvalidBoxError
 
 class BoxParser:
     def __init__(self, file):
         self.reader = StreamReader(file)
+        #TODO abhi: should this be a dict or a RootBox type?
         self.boxes = {}
 
     def parse(self):
@@ -27,20 +30,10 @@ class BoxParser:
                 self.parse_ftyp(size)
             elif type == 'moov':
                 self.parse_moov(size)
-            elif type == 'mvhd':
-                self.parse_mvhd(size)
-            elif type == 'tkhd':
-                self.parse_tkhd(size)
-            elif type == 'mdhd':
-                self.parse_mdhd(size)
-            elif type == 'stts':
-                self.parse_stts(size)
-            elif type == 'stss':
-                self.parse_stss(size)
-            elif type == 'hdlr':
-                self.parse_hdlr(size)
             elif type == 'free':
                 self.parse_free(size)
+            elif type == 'mdat':
+                raise NotImplementedError
             else:
                 raise InvalidBoxError("type %s unknown" % type, None)
             if self.reader.reached_eof():
@@ -52,22 +45,63 @@ class BoxParser:
 
         #Either box parsing was successful or it has errors
 
-    def parse_ftyp(self, size):
+    def parse_ftyp(self, my_size):
         major_brand = self.reader.read32_as_str()
         minor_version = self.reader.read32()
         compatible_brands = []
         cnt = 0
-        while cnt < size + 4 - 16 - 4:
+        while cnt < my_size + 4 - 16 - 4:
             compatible_brands.append(self.reader.read32_as_str())
             cnt += 4
-        box = FileTypeBox(size, major_brand, minor_version, compatible_brands)
+        box = FileTypeBox(my_size, major_brand, minor_version, compatible_brands)
         self.boxes['ftyp'] = box
 
-    def parse_moov(self, size):
-        while True:
-            pass
-        box = MovieBox(size)
+    def parse_moov(self, my_size):
+        box = MovieBox(my_size)
+        cnt = 0
+        while not self.reader.reached_eof() and cnt < my_size:
+            size = self.reader.read32()
+            type = self.reader.read32()
+            cnt += size
+            if type is 'mvhd':
+                parse_mvhd(self, size)
+            elif type is 'trak': 
+                parse_trak(self, size)
+            elif type is 'iods': 
+                raise NotImplementedError
+            else:
+                raise InvalidBoxError("type %s unknown" % type, None)
+
         self.boxes['moov'] = box
+
+    def parse_trak(self, my_size):
+        size = self.reader.read32()
+        type = self.reader.read32()
+        cnt = 0
+        while cnt < my_size:
+            if type is 'tkhd':
+                parse_tkhd()
+            elif type is 'edts':
+                parse_edts()
+            elif type is 'mdia':
+                parse_mdia()
+            else:
+                raise InvalidBoxError("type %s unknown")
+
+    def parse_elst(self, size):
+        version = self.reader.read32()
+        box = EditListBox(size, version) 
+        entry_count = self.reader.read32()
+        for _ in range(0..entry_count):
+            if version == 1:
+                box.segment_duration.append(self.reader.read64())
+                box.media_time.append(self.reader.read64())
+            else:
+                box.segment_duration.append(self.reader.read32())
+                box.media_time.append(self.reader.read32()) 
+
+            box.media_rate_integer.append(self.reader16())
+            box.media_rate_fraction.append(self.reader16())
         
     def parse_free(self, size):
         data = self.reader.readn(size - 4)
@@ -209,6 +243,14 @@ class BoxParser:
         box.name = self.reader.readn_as_str(size - 32)
         self.boxes['unknown'] = {}
         self.boxes['unknown']['hdlr'] = box 
+
+    def parse_vmhd(self, size):
+        self.reader.read32()
+        box = VideoMediaHeaderBox(size, 0, 1)
+        box.graphics_mode = self.reader.reader16()
+        box.opcolor.append(self.reader.reader16())
+        box.opcolor.append(self.reader.reader16())
+        box.opcolor.append(self.reader.reader16()) 
         
     def get_boxes(self):
         return self.boxes

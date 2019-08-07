@@ -11,6 +11,9 @@ class FullBox(Box):
         self.version = v
         self.flags = f
 
+class RootBox():
+    pass
+
 class FileTypeBox(Box):
     def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
         super().__init__(size, 'ftyp')
