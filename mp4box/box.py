@@ -118,3 +118,12 @@ class HandlerBox(FullBox):
         self.handler_type = 0
         self.reserved = []
         self.name = ''
+
+class EditListBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'elst', 0, v, f)
+        self.entry_count = 0
+        self.segment_duration = []
+        self.media_time = []
+        self.media_rate_integer = []
+        self.media_rate_fraction = []
