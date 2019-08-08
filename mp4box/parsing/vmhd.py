@@ -7,3 +7,4 @@ def parse_vmhd(reader, size):
     box.opcolor.append(reader.reader16())
     box.opcolor.append(reader.reader16())
     box.opcolor.append(reader.reader16()) 
+    return box

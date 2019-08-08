@@ -23,3 +23,4 @@ def parse_mdhd(reader, size):
     box.predefined = reader.read16()
     boxes['unknown'] = {}
     boxes['unknown']['mdhd'] = box 
+    return box

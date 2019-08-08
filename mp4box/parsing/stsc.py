@@ -8,3 +8,5 @@ def parse_stsc(reader, size):
         box.first_chunk.append(reader.read32())
         box.samples_per_chunk.append(reader.read32())
         box.sample_description_index.append(reader.read32())
+
+    return box

@@ -24,6 +24,9 @@ class FileTypeBox(Box):
 class MovieBox(Box):
     def __init__(self, size: int):
         super().__init__(size, 'moov')
+        self.mvhd = None
+        self.iods = None
+        self.trak = None
 
 class MovieHeaderBox(FullBox):
     def __init__(self, size: int, v: int, f: int):
@@ -136,3 +139,10 @@ class VideoMediaHeaderBox(FullBox):
         super().__init__(size, 'vmhd', 0, v, f)
         self.graphics_mode = 0
         self.opcolor = []
+
+class MediaBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'mdia')
+        self.mdhd = None
+        self.hdlr = None
+        self.minf = None

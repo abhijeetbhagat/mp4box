@@ -12,5 +12,7 @@ def parse_elst(reader, size):
             box.segment_duration.append(reader.read32())
             box.media_time.append(reader.read32()) 
 
-        box.media_rate_integer.append(reader16())
-        box.media_rate_fraction.append(reader16())
+        box.media_rate_integer.append(reader.read16())
+        box.media_rate_fraction.append(reader.read16())
+
+    return box

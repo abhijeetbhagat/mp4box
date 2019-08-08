@@ -11,3 +11,4 @@ def parse_hdlr(reader, size):
     box.name = reader.readn_as_str(size - 32)
     boxes['unknown'] = {}
     boxes['unknown']['hdlr'] = box 
+    return box

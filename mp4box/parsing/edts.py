@@ -1,8 +1,8 @@
 
-def parse_edts(self, my_size):
-    size = self.reader.read32()
-    type = self.reader.read32()
+def parse_edts(reader, my_size):
+    size = reader.read32()
+    type = reader.read32_as_str()
     if type is 'elts':
-        parse_elts(self, size)
+        elts = parse_elts(self, size)
     else:
         raise InvalidBoxError("type %s unknown")

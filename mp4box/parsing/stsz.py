@@ -7,3 +7,5 @@ def parse_stsz(reader, size):
     if box.sample_size:
         for _ in range(0, box.sample_count):
             box.entry_size.append(reader.read32())
+
+    return box

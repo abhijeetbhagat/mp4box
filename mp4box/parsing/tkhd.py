@@ -37,3 +37,4 @@ def parse_tkhd(reader, size):
     reader.skip(2)
     boxes['unknown'] = {}
     boxes['unknown']['tkhd'] = box 
+    return box
