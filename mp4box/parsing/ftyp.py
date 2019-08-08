@@ -10,5 +10,3 @@ def parse_ftyp(reader, my_size):
         cnt += 4
     box = FileTypeBox(my_size, major_brand, minor_version, compatible_brands)
     return box
-
-
