@@ -146,3 +146,20 @@ class MediaBox(Box):
         self.mdhd = None
         self.hdlr = None
         self.minf = None
+
+class MediaInformationBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'minf')
+        self.vmhd = None
+        self.dinf = None
+        self.stbl = None
+
+class DataInformationBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'dinf')
+        self.dref = None
+
+class DataReferenceBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'dref', 0, v, f)
+        self.url = None
