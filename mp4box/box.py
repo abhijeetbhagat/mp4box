@@ -174,3 +174,10 @@ class SampleTableBox(Box):
         self.stsc = None
         self.stsz = None
         self.stco = None
+
+class TrackBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'trak')
+        self.tkhd = None
+        self.edts = None
+        self.mdia = None
