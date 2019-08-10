@@ -163,3 +163,14 @@ class DataReferenceBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'dref', 0, v, f)
         self.url = None
+
+class SampleTableBox(Box):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stbl')
+        self.stsd = None
+        self.stts = None
+        self.ctts = None
+        self.stss = None
+        self.stsc = None
+        self.stsz = None
+        self.stco = None
