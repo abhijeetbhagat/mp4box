@@ -6,7 +6,7 @@ from mp4box.parsing.mdia import parse_mdia
 def parse_trak(reader, my_size):
     box = TrackBox(reader, my_size)
     cnt = 0
-    while not reader.rreached_eof() and cnt < my_size:
+    while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
