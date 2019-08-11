@@ -1,3 +1,5 @@
+from mp4box.box import RootBox
+from mp4box.box import MediaDataBox
 from mp4box.parsing.ftyp import parse_ftyp
 from mp4box.parsing.moov import parse_moov
 from mp4box.parsing.free import parse_free
@@ -9,20 +11,20 @@ class BoxParser:
         self.reader = StreamReader(file)
         #TODO abhi: should this be a dict or a RootBox type?
         self.boxes = {}
-        self.root = []
+        self.root = RootBox()
 
     def parse(self):
         size = self.reader.read32()
         type = self.reader.read32_as_str()
         while True:
             if type == 'ftyp':
-                box['ftyp'] = parse_ftyp(self.reader, size)
+                self.root.ftyp = parse_ftyp(self.reader, size)
             elif type == 'moov':
-                box['moov'] = parse_moov(self.reader, size)
+                self.root.moov = parse_moov(self.reader, size)
             elif type == 'free':
-                box['free'] = parse_free(self.reader, size)
+                self.root.free = parse_free(self.reader, size)
             elif type == 'mdat':
-                raise NotImplementedError
+                self.root.free = MediaDataBox(size)
             else:
                 raise InvalidBoxError("type %s unknown" % type, None)
             if self.reader.reached_eof():
