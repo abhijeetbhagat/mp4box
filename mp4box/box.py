@@ -181,3 +181,14 @@ class TrackBox(Box):
         self.tkhd = None
         self.edts = None
         self.mdia = None
+
+class MediaDataBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'mdat')
+
+class RootBox:
+    def __init__(self):
+        self.ftyp = None
+        self.moov = None
+        self.mdat = None
+        self.free = None
