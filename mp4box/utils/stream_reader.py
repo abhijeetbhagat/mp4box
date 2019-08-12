@@ -1,3 +1,4 @@
+import os
 from io import BufferedReader
 
 class StreamReader:
@@ -6,6 +7,7 @@ class StreamReader:
             self.stream = open(file, "rb")
         else:
             self.stream = file
+        self.size = os.path.getsize(self.stream.name)
 
     #def __del__(self):
     #    self.stream.close()
