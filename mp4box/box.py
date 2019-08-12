@@ -185,6 +185,7 @@ class TrackBox(Box):
 class MediaDataBox(Box):
     def __init__(self, size, offset):
         super().__init__(size, 'mdat')
+        #this is not set to 0 because mdat can be the first box in the file?
         self.offset = -1
 
 class RootBox:
