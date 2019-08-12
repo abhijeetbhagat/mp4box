@@ -183,8 +183,9 @@ class TrackBox(Box):
         self.mdia = None
 
 class MediaDataBox(Box):
-    def __init__(self, size):
+    def __init__(self, size, offset):
         super().__init__(size, 'mdat')
+        self.offset = -1
 
 class RootBox:
     def __init__(self):
