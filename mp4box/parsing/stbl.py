@@ -1,4 +1,5 @@
 from mp4box.box import SampleTableBox
+from mp4box.parsing.ctts import parse_ctts
 from mp4box.parsing.stts import parse_stts
 from mp4box.parsing.stss import parse_stss
 from mp4box.parsing.stsc import parse_stsc
@@ -17,7 +18,7 @@ def parse_stbl(reader, my_size):
         elif type is 'stts':
             box.stts = parse_stts(reader, size)
         elif type is 'ctts':
-            raise NotImplementedError
+            box.ctts = parse_ctts(reader, size)
         elif type is 'stss':
             box.stss = parse_stss(reader, size)
         elif type is 'stsc':

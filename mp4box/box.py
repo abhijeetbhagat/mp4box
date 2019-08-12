@@ -104,6 +104,12 @@ class SampleSizeBox(FullBox):
         self.sample_count = 0
         self.entry_size = []
 
+class CompositionTimeToSampleBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'ctts', 0, v, f)
+        self.sample_count = []
+        self.sample_offset = []
+
 class ChunkOffsetBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'stco', 0, v, f)
