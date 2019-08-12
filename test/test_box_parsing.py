@@ -4,8 +4,9 @@ from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.ftyp import *
 from mp4box.parsing.stts import *
 from mp4box.parsing.stss import *
+from mp4box.parsing.stsc import *
 
-class TestBoxParsingIsolation(unittest.TestCase):
+class TestTopLevelBoxes(unittest.TestCase):
     def test_ftyp(self):
          with  TemporaryFile() as f:
                 f.write(b"\x00\x00\x00\x18\x66\x74\x79\x70\x69\x73\x6f\x36\x00\x00\x00\x01\x69\x73\x6f\x36\x64\x61\x73\x68")
@@ -22,7 +23,7 @@ class TestBoxParsingIsolation(unittest.TestCase):
                 self.assertEqual(ftyp.compatible_brands[1], 'dash')
 
 
-class TestSampleTableParsing(unittest.TestCase):
+class TestSampleTables(unittest.TestCase):
     def test_stts(self):
         with TemporaryFile() as f:
            f.write(b'\x00\x00\x00\x18\x73\x74\x74\x73\x00'
@@ -50,8 +51,26 @@ class TestSampleTableParsing(unittest.TestCase):
             stss = parse_stss(reader, size)
             self.assertNotEqual(stss, None)
 
+    def test_stsc(self):
+        with TemporaryFile() as f:
+
+            f.write(b'\x00\x00\x00\x34\x73\x74\x73\x63\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00'
+                    b'\x00\x01\x00\x00\x00\x0d\x00\x00\x00\x01\x00\x00\x00'
+                    b'\x02\x00\x00\x00\x0c\x00\x00\x00\x01\x00\x00\x00\x3a'
+                    b'\x00\x00\x00\x03\x00\x00\x00\x01')
+            f.seek(0)
+            reader = StreamReader(f)
+            size = reader.read32()
+            _ = reader.read32()
+            stsc = parse_stsc(reader, size)
+            self.assertNotEqual(stsc, None)
+            self.assertEqual(stsc.entry_count, 3)
+            self.assertEqual(stsc.first_chunk[0], 1)
+            self.assertEqual(stsc.samples_per_chunk[0], 13)
+            self.assertEqual(stsc.sample_description_index[0], 1)
+
 if __name__ == '__main__':
-    test_classes_to_run = [TestBoxParsingIsolation, TestSampleTableParsing]
+    test_classes_to_run = [TestTopLevelBoxes, TestSampleTables]
 
     loader = unittest.TestLoader()
 
