@@ -40,6 +40,9 @@ class StreamReader:
     def skip(self, n: int):
         self.stream.read(n)
 
+    def current_pos(self):
+        return self.stream.tell()
+
     def reached_eof(self):
         #TODO abhi: should calculate size of the file in the ctor and
         #check if tell() has crossed it
