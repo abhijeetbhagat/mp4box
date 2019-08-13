@@ -16,5 +16,4 @@ def parse_mvhd(reader, size):
     
     reader.skip(76)
     box.next_track_id = reader.read32()
-    boxes['unknown'] = {}
-    boxes['unknown']['mvhd'] = box 
+    return box 
