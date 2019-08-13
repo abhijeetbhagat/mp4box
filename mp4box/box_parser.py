@@ -34,5 +34,5 @@ class BoxParser:
 
         #Either box parsing was successful or it has errors
 
-    def get_boxes(self):
-        return self.boxes
+    def get_tree(self):
+        return self.root
