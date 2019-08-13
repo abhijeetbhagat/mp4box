@@ -9,8 +9,6 @@ from mp4box.utils.exceptions import InvalidBoxError
 class BoxParser:
     def __init__(self, file):
         self.reader = StreamReader(file)
-        #TODO abhi: should this be a dict or a RootBox type?
-        self.boxes = {}
         self.root = RootBox()
 
     def parse(self):

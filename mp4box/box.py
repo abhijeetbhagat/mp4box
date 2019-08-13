@@ -12,7 +12,11 @@ class FullBox(Box):
         self.flags = f
 
 class RootBox():
-    pass
+    def __init__(self):
+        self.ftyp = None
+        self.moov = None
+        self.mdat = None
+        self.free = None
 
 class FileTypeBox(Box):
     def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
