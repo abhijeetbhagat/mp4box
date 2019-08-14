@@ -15,8 +15,14 @@ class RootBox():
     def __init__(self):
         self.ftyp = None
         self.moov = None
-        self.mdat = None
         self.free = None
+        #in case the file is fragmented
+        self.sidxs = []
+        self.moofs = []
+        self.mdats = []
+
+    def has_fragments(self):
+        return self.moofs
 
 class FileTypeBox(Box):
     def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
@@ -31,6 +37,12 @@ class MovieBox(Box):
         self.mvhd = None
         self.iods = None
         self.trak = None
+
+    def get_all_tracks(self):
+        pass
+
+    def has_iods(self):
+        return self.iods is None
 
 class MovieHeaderBox(FullBox):
     def __init__(self, size: int, v: int, f: int):
@@ -198,9 +210,4 @@ class MediaDataBox(Box):
         #this is not set to 0 because mdat can be the first box in the file?
         self.offset = -1
 
-class RootBox:
-    def __init__(self):
-        self.ftyp = None
-        self.moov = None
-        self.mdat = None
-        self.free = None
+
