@@ -22,7 +22,7 @@ class BoxParser:
             elif type == 'free':
                 self.root.free = parse_free(self.reader, size)
             elif type == 'mdat':
-                self.root.mdat = parse_mdat(self.reader, size)
+                self.root.mdats.append(parse_mdat(self.reader, size))
             else:
                 raise InvalidBoxError("type %s unknown" % type, None)
             if self.reader.reached_eof():
@@ -36,3 +36,16 @@ class BoxParser:
 
     def get_tree(self):
         return self.root
+
+    def get_all_info(self):
+        out = {}
+
+        out["duration"] = root.get_duration()
+        out["timescale"] = root.get_timescale()
+        out["brands"] = root.get_compatible_brands()
+        out["created"] = root.get_creation_time()
+        out["modified"] = root.get_modification_time()
+        out["tracks"] = root.get_all_tracks()
+        out["is_fragmented"] = root.has_fragments()
+        #out["is_progressive"] = not sure what this means
+        out["has_iod"] = root.has_iods()
