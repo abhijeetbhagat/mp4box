@@ -1,5 +1,5 @@
 from mp4box.box import DataInformationBox
-from mp4box.parsing.dref import parse_dref()
+from mp4box.parsing.dref import parse_dref
 
 def parse_dinf(reader, my_size):
     box = DataInformationBox(my_size)
