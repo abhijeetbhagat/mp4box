@@ -9,8 +9,8 @@ class StreamReader:
             self.stream = file
         self.size = os.path.getsize(self.stream.name)
 
-    #def __del__(self):
-    #    self.stream.close()
+    def __del__(self):
+        self.stream.close()
 
     def read8(self):
         #TODO abhi: umm do we need to do this?
