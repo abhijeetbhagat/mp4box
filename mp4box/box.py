@@ -188,7 +188,19 @@ class DataInformationBox(Box):
 class DataReferenceBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'dref', 0, v, f)
-        self.url = None
+        self.entry_count = 0
+        self.data_entries = []
+
+class DataEntryUrlBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'url', 0, 0, f)
+        self.location = None
+
+class DataEntryUrnBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'urn', 0, 0, f)
+        self.name = None
+        self.location = None
 
 class SampleTableBox(Box):
     def __init__(self, size, v, f):
