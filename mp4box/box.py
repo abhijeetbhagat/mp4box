@@ -17,12 +17,16 @@ class RootBox():
         self.moov = None
         self.free = None
         #in case the file is fragmented
+        self.styp = None
         self.sidxs = []
         self.moofs = []
         self.mdats = []
 
     def has_fragments(self):
         return self.moofs
+
+    def get_all_tracks(self):
+        return self.moov.get_all_traks()
 
 class FileTypeBox(Box):
     def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
@@ -36,10 +40,10 @@ class MovieBox(Box):
         super().__init__(size, 'moov')
         self.mvhd = None
         self.iods = None
-        self.trak = None
+        self.traks = []
 
     def get_all_tracks(self):
-        pass
+        return self.traks
 
     def has_iods(self):
         return self.iods is None

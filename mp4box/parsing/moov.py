@@ -12,7 +12,7 @@ def parse_moov(reader, my_size):
         if type is 'mvhd':
             box.mvhd = parse_mvhd(reader, size)
         elif type is 'trak': 
-            box.trak = parse_trak(reader, size)
+            box.traks.append(parse_trak(reader, size))
         elif type is 'iods': 
             raise NotImplementedError
         else:
