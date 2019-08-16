@@ -9,6 +9,7 @@ from mp4box.parsing.stsc import *
 from mp4box.parsing.stco import *
 from mp4box.parsing.ctts import *
 from mp4box.parsing.stsz import *
+from mp4box.parsing.tkhd import *
 
 class TestTopLevelBoxes(unittest.TestCase):
     def test_ftyp(self):
@@ -123,8 +124,25 @@ class TestSampleTables(unittest.TestCase):
             self.assertEqual(stsz.entry_size[0], 160959)
             self.assertEqual(stsz.entry_size[687], 8073)
 
+class TestTraks(unittest.TestCase):
+    def test_video_tkhd(self):
+        with TemporaryFile() as f:
+            f.write(b"\x00\x00\x00\x5c\x74\x6b\x68\x64\x00\x00\x00\x01\xc1\x02\x17\x13\xc1\x02\x17\x64\x00\x00\x00\x02\x00\x00\x00\x00"
+                    b"\x00\x00\x49\xe8\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00"
+                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00"
+                    b"\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x00\x00\x00\x01\x40\x00\x00\x00\xf0\x00\x00")
+            f.seek(0)
+            with StreamReader(f) as reader:
+                size = reader.read32()
+                _ = reader.read32()
+                tkhd = parse_tkhd(reader, size)
+                self.assertNotEqual(tkhd, None)
+                self.assertEqual(tkhd.duration, 18920)
+                self.assertEqual(tkhd.width, 320)
+                self.assertEqual(tkhd.height, 240)
+
 if __name__ == '__main__':
-    test_classes_to_run = [TestTopLevelBoxes, TestSampleTables]
+    test_classes_to_run = [TestTopLevelBoxes, TestSampleTables, TestTraks]
 
     loader = unittest.TestLoader()
 
