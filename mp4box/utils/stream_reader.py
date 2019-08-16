@@ -10,7 +10,18 @@ class StreamReader:
         self.size = os.path.getsize(self.stream.name)
 
     def __del__(self):
-        self.stream.close()
+        self.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, val, tb):
+        self.close()
+
+    def close(self):
+        if self.stream:
+            self.stream.close()
+            self.stream = None
 
     def read8(self):
         #TODO abhi: umm do we need to do this?
