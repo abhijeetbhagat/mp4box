@@ -21,6 +21,4 @@ def parse_mdhd(reader, size):
                    chr(97 + (language >> 5 & 0x1f) - 1 % 97) + \
                    chr(97 + (language & 0x1f) - 1 % 97)
     box.predefined = reader.read16()
-    boxes['unknown'] = {}
-    boxes['unknown']['mdhd'] = box 
     return box
