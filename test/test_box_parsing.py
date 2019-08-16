@@ -1,4 +1,5 @@
 import unittest
+import os
 from tempfile import TemporaryFile
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.ftyp import *
@@ -6,6 +7,7 @@ from mp4box.parsing.stts import *
 from mp4box.parsing.stss import *
 from mp4box.parsing.stsc import *
 from mp4box.parsing.stco import *
+from mp4box.parsing.ctts import *
 
 class TestTopLevelBoxes(unittest.TestCase):
     def test_ftyp(self):
@@ -96,6 +98,18 @@ class TestSampleTables(unittest.TestCase):
             stco = parse_stco(reader, size)
             self.assertNotEqual(stco, None)
             self.assertEqual(stco.entry_count, 58)
+
+    def test_ctts(self):
+        with StreamReader(os.path.dirname(os.path.realpath(__file__)) + "\ctts_data.txt") as r:
+            size = r.read32()
+            _ = r.read32()
+            ctts = parse_ctts(r, size)
+            self.assertNotEqual(ctts, None)
+            self.assertEqual(ctts.entry_count, 671)
+            self.assertEqual(ctts.sample_count[0], 1)
+            self.assertEqual(ctts.sample_count[1], 1)
+            self.assertEqual(ctts.sample_offset[0], 2000)
+            self.assertEqual(ctts.sample_offset[1], 5000)
 
 if __name__ == '__main__':
     test_classes_to_run = [TestTopLevelBoxes, TestSampleTables]
