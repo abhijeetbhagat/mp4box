@@ -219,6 +219,8 @@ class TrackBox(Box):
         self.tkhd = None
         self.edts = None
         self.mdia = None
+        self.is_audio = False
+        self.is_video = False
 
 class MediaDataBox(Box):
     def __init__(self, size, offset):
