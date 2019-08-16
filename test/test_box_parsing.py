@@ -8,6 +8,7 @@ from mp4box.parsing.stss import *
 from mp4box.parsing.stsc import *
 from mp4box.parsing.stco import *
 from mp4box.parsing.ctts import *
+from mp4box.parsing.stsz import *
 
 class TestTopLevelBoxes(unittest.TestCase):
     def test_ftyp(self):
@@ -110,6 +111,17 @@ class TestSampleTables(unittest.TestCase):
             self.assertEqual(ctts.sample_count[1], 1)
             self.assertEqual(ctts.sample_offset[0], 2000)
             self.assertEqual(ctts.sample_offset[1], 5000)
+
+    def test_stsz(self):
+        with StreamReader(os.path.dirname(os.path.realpath(__file__)) + "\stsz_data.txt") as r:
+            size = r.read32()
+            _ = r.read32()
+            stsz = parse_stsz(r, size)
+            self.assertNotEqual(stsz, None)
+            self.assertEqual(stsz.sample_size, 0)
+            self.assertEqual(stsz.sample_count, 688)
+            self.assertEqual(stsz.entry_size[0], 160959)
+            self.assertEqual(stsz.entry_size[687], 8073)
 
 if __name__ == '__main__':
     test_classes_to_run = [TestTopLevelBoxes, TestSampleTables]
