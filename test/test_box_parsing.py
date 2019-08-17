@@ -1,6 +1,8 @@
 import unittest
 import os
 from tempfile import TemporaryFile
+from test import *
+from context import mp4box
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.ftyp import *
 from mp4box.parsing.stts import *
