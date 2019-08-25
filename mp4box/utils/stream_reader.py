@@ -23,6 +23,9 @@ class StreamReader:
             self.stream.close()
             self.stream = None
 
+    def reset(self):
+        self.seek(0)
+
     def read8(self):
         #TODO abhi: umm do we need to do this?
         return int.from_bytes(self.stream.read(1), "big")
