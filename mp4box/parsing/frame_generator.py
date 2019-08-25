@@ -1,3 +1,5 @@
+from mp4box.utils.frame import *
+
 #FrameGenerator should work with both stbls and truns
 #It should work with one mdat at a time.
 class FrameGenerator:
@@ -35,9 +37,23 @@ class VideoFrameGenerator:
         self.stbl = trak.get_stbl()
         self.mdat = mdat
     
+    #TODO abhi: could this be common for audio as well?
     def get(self):
-        self.reader.reset() #reset the file ptr to the beginning
+        self.reader.reset() #reset the file ptr to the beginning before we begin
         num_chunks = self.stbl.stco.entry_count
+        i = 0
         for chunk_offset in self.stbl.stco.chunk_offsets:
-            chunk = self.reader.readn(chunk_offset)
+            self.reader.skip(chunk_offset) #set the file ptr to the beginning of the chunk
             samples_per_chunk = get_sample_count()
+            
+            for _ in range(0, samples_per_chunk): 
+                sample_size = self.stbl.stsz.entry_size[i]
+                i += 1
+                frame = VideoFrame(sample_size, reader)
+                yield frame
+
+            #once all the samples in the current chunk are read,
+            #reset the file ptr to the beginning since we skip
+            #at the beginning of this loop.
+            #TODO abhi: see if we can avoid this?
+            self.reader.reset()
