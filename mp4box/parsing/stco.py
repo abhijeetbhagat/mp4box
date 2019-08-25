@@ -5,5 +5,5 @@ def parse_stco(reader, size):
     box = ChunkOffsetBox(size, version, 0)
     box.entry_count = reader.read32()
     for _ in range(0, box.entry_count):
-        box.chunk_offset.append(reader.read32())
+        box.chunk_offsets.append(reader.read32())
     return box

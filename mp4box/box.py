@@ -134,7 +134,7 @@ class ChunkOffsetBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'stco', 0, v, f)
         self.entry_count = 0
-        self.chunk_offset = []
+        self.chunk_offsets = []
 
 class BitRateBox(Box):
     def __init__(self, size):
@@ -221,6 +221,11 @@ class TrackBox(Box):
         self.mdia = None
         self.is_audio = False
         self.is_video = False
+
+    def get_stbl(self):
+        #TODO abhi: should trak know about minf, stbl
+        #or should it ask mdia to get it?
+        return self.mdia.minf.stbl
 
 class MediaDataBox(Box):
     def __init__(self, size, offset):
