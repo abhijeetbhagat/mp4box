@@ -232,4 +232,12 @@ class MediaDataBox(Box):
         super().__init__(size, 'mdat')
         self.offset = offset
 
+class AVCCConfigurationBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'avcC')
 
+class AVC1Box(Box):
+    def __init__(self, size):
+        super().__init__(size, 'avc1')
+        self.avcc = None
+        self.btrt = None
