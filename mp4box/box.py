@@ -241,3 +241,8 @@ class AVC1Box(Box):
         super().__init__(size, 'avc1')
         self.avcc = None
         self.btrt = None
+
+class SampleDescriptionBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'stsd', v, 0)
+        self.avc1 = None
