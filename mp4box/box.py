@@ -235,6 +235,17 @@ class MediaDataBox(Box):
 class AVCCConfigurationBox(Box):
     def __init__(self, size):
         super().__init__(size, 'avcC')
+        self.config_version = 0
+        self.profile_indication = 0
+        self.profile_compatibility = 0
+        self.level_indication = 0
+        self.len_size_minus_one = 0
+        self.num_sps = 0
+        self.sps_len = []
+        self.sps_nalu = []
+        self.num_pps = 0
+        self.pps_len = []
+        self.pps_nalu = []
 
 class AVC1Box(Box):
     def __init__(self, size):
