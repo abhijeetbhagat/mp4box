@@ -15,6 +15,7 @@ from mp4box.parsing.tkhd import *
 from mp4box.parsing.mvhd import *
 from mp4box.parsing.mdhd import *
 from mp4box.parsing.hdlr import *
+from mp4box.parsing.avcc import *
 
 class TestTopLevelBoxes(unittest.TestCase):
     def test_ftyp(self):
@@ -193,8 +194,28 @@ class TestMdia(unittest.TestCase):
                 self.assertEqual(hdlr.handler_type, 'vide')
                 self.assertEqual(hdlr.name, '264@GPAC0.8.0-rev9-g6e4af05b-master\x00')
 
+class TestAVC(unittest.TestCase):
+    def test_avcc(self):
+        with TemporaryFile() as f:
+            f.write(b"\x00\x00\x00\x2f\x61\x76\x63\x43\x01\x42\xe0\x15\xff\xe1\x00\x18\x27"
+                    b"\x42\xe0\x15\xa9\x18\x3c\x11\xfd\x60\x2d\x41\x80\x41\xad\xb7\xa0\x0f"
+                    b"\x48\x0f\x55\xef\x7c\x04\x01\x00\x04\x28\xde\x09\x88")
+            f.seek(0)
+            with StreamReader(f) as reader:
+                size = reader.read32()
+                _ = reader.read32()
+                avcc = parse_avcc(reader, size)
+                self.assertNotEqual(avcc, None)
+                self.assertEqual(avcc.config_version, 1)
+                self.assertEqual(avcc.level_indication, 21)
+                self.assertEqual(avcc.len_size_minus_one, 3)
+                self.assertEqual(avcc.num_sps, 1)
+                self.assertEqual(avcc.num_pps, 1)
+                self.assertEqual(avcc.sps_len, 24)
+                self.assertEqual(avcc.pps_len, 4)
+
 if __name__ == '__main__':
-    test_classes_to_run = [TestTopLevelBoxes, TestSampleTables, TestTraks, TestMoov, TestMdia]
+    test_classes_to_run = [TestTopLevelBoxes, TestSampleTables, TestTraks, TestMoov, TestMdia, TestAVC]
 
     loader = unittest.TestLoader()
 
