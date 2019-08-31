@@ -211,8 +211,8 @@ class TestAVC(unittest.TestCase):
                 self.assertEqual(avcc.len_size_minus_one, 3)
                 self.assertEqual(avcc.num_sps, 1)
                 self.assertEqual(avcc.num_pps, 1)
-                self.assertEqual(avcc.sps_len, 24)
-                self.assertEqual(avcc.pps_len, 4)
+                self.assertEqual(avcc.sps_len, [24])
+                self.assertEqual(avcc.pps_len, [4])
 
 if __name__ == '__main__':
     test_classes_to_run = [TestTopLevelBoxes, TestSampleTables, TestTraks, TestMoov, TestMdia, TestAVC]
