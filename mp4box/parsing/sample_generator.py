@@ -1,8 +1,8 @@
-from mp4box.utils.frame import *
+from mp4box.utils.sample import VideoSample
 
-#FrameGenerator should work with both stbls and truns
+#SampleGenerator should work with both stbls and truns
 #It should work with one mdat at a time.
-class FrameGenerator:
+class SampleGenerator:
     def __init__(self, stbl):
         self.stbl = stbl 
 
@@ -23,14 +23,14 @@ class FrameGenerator:
         else:
             yield s_c[0]
 
-class AudioFrameGenerator:
+class AudioSampleGenerator:
     def __init__(self, trak, mdat):
         pass
 
     def get(self):
         pass
 
-class VideoFrameGenerator(FrameGenerator):
+class VideoSampleGenerator(SampleGenerator):
     def __init__(self, reader, trak, mdat):
         super().__init__(trak.get_stbl())
         self.reader = reader
@@ -49,7 +49,7 @@ class VideoFrameGenerator(FrameGenerator):
             for _ in range(0, samples_per_chunk): 
                 sample_size = self.stbl.stsz.entry_size[i]
                 i += 1
-                frame = VideoFrame(sample_size, reader)
+                frame = VideoSample(sample_size, reader)
                 yield frame
 
             #once all the samples in the current chunk are read,
