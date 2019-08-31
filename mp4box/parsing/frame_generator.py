@@ -30,7 +30,7 @@ class AudioFrameGenerator:
     def get(self):
         pass
 
-class VideoFrameGenerator:
+class VideoFrameGenerator(FrameGenerator):
     def __init__(self, reader, trak, mdat):
         super().__init__(trak.get_stbl())
         self.reader = reader
