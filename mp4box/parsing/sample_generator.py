@@ -44,16 +44,27 @@ class VideoSampleGenerator(SampleGenerator):
         i = 0
         for chunk_offset in self.stbl.stco.chunk_offsets:
             self.reader.skip(chunk_offset) #set the file ptr to the beginning of the chunk
-            samples_per_chunk = get_sample_count()
+            samples_per_chunk = self.get_sample_count()
             
             for _ in range(0, samples_per_chunk): 
                 sample_size = self.stbl.stsz.entry_size[i]
                 i += 1
-                frame = VideoSample(sample_size, reader)
-                yield frame
+                sample = VideoSample(sample_size, reader)
+                yield sample
 
             #once all the samples in the current chunk are read,
             #reset the file ptr to the beginning since we skip
             #at the beginning of this loop.
             #TODO abhi: see if we can avoid this?
             self.reader.reset()
+
+    def get_sync_sample(self, n):
+        chunk_offset = self.stbl.stco.chunk_offsets[0]
+        for i in self.get_next_sync_sample_index():
+            #Get the chunk which contains this i
+            #Use the stsz table to read the sample
+
+    def get_next_sync_sample_index(self):
+        stss = self.stbl.stss
+        for ss in stss.sample_num:
+            yield ss
