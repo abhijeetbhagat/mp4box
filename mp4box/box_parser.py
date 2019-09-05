@@ -4,7 +4,7 @@ from mp4box.parsing.moov import parse_moov
 from mp4box.parsing.free import parse_free
 from mp4box.parsing.mdat import parse_mdat
 from mp4box.utils.stream_reader import StreamReader
-from mp4box.parsing.frame_generator import FrameGenerator
+from mp4box.parsing.sample_generator import SampleGenerator
 from mp4box.utils.exceptions import InvalidBoxError
 
 class BoxParser:
