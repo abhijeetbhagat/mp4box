@@ -1,6 +1,7 @@
 from mp4box.box import MovieBox
 from mp4box.parsing.trak import parse_trak
 from mp4box.parsing.mvhd import parse_mvhd
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_moov(reader, my_size):
     box = MovieBox(my_size)

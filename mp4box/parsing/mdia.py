@@ -2,6 +2,7 @@ from mp4box.box import MediaBox
 from mp4box.parsing.minf import parse_minf
 from mp4box.parsing.mdhd import parse_mdhd
 from mp4box.parsing.hdlr import parse_hdlr
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_mdia(self, my_size):
     box = MediaBox(my_size)

@@ -1,5 +1,6 @@
 from mp4box.box import DataReferenceBox
 from mp4box.parsing.url import parse_url
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_dref(reader, my_size):
     box = DataReferenceBox(my_size)

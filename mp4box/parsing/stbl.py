@@ -6,6 +6,7 @@ from mp4box.parsing.stss import parse_stss
 from mp4box.parsing.stsc import parse_stsc
 from mp4box.parsing.stsz import parse_stsz
 from mp4box.parsing.stco import parse_stco
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_stbl(reader, my_size):
     box = SampleTableBox(my_size, )

@@ -2,6 +2,7 @@ from mp4box.box import TrackBox
 from mp4box.parsing.tkhd import parse_tkhd
 from mp4box.parsing.edts import parse_edts
 from mp4box.parsing.mdia import parse_mdia
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_trak(reader, my_size):
     box = TrackBox(reader, my_size)

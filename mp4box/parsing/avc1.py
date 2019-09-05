@@ -1,5 +1,6 @@
 from mp4box.box import AVC1Box
 from mp4box.parsing.btrt import parse_btrt
+from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_avc1(reader, my_size):
     box = AVC1Box(my_size)
