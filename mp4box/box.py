@@ -151,6 +151,11 @@ class HandlerBox(FullBox):
         self.reserved = []
         self.name = ''
 
+class EditBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'edts')
+        self.elst = None
+
 class EditListBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'elst', 0, v, f)
