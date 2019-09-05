@@ -49,7 +49,7 @@ class VideoSampleGenerator(SampleGenerator):
             for _ in range(0, samples_per_chunk): 
                 sample_size = self.stbl.stsz.entry_size[i]
                 i += 1
-                sample = VideoSample(sample_size, reader)
+                sample = VideoSample(sample_size, self.reader)
                 yield sample
 
             #once all the samples in the current chunk are read,
@@ -59,10 +59,22 @@ class VideoSampleGenerator(SampleGenerator):
             self.reader.reset()
 
     def get_sync_sample(self, n):
-        chunk_offset = self.stbl.stco.chunk_offsets[0]
-        for i in self.get_next_sync_sample_index():
-            #Get the chunk which contains this i
-            #Use the stsz table to read the sample
+        self.reader.reset() #reset the file ptr to the beginning before we begin
+        j = 0
+        k = 0
+        for chunk_offset in self.stbl.stco.chunk_offsets:
+            self.reader.skip(chunk_offset)
+            samples_per_chunk = get_sample_count()
+            for _ in range(0, samples_per_chunk):
+                if  j == self.stbl.stss.sample_num[k]:
+                    sample_size = self.stbl.stsz.entry_size[k]
+                    sync_sample = VideoSample(sample_size, self.reader)
+                    k += 1
+                    yield sync_sample
+
+                j += 1
+
+            self.reader.reset()
 
     def get_next_sync_sample_index(self):
         stss = self.stbl.stss
