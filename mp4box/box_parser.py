@@ -4,12 +4,14 @@ from mp4box.parsing.moov import parse_moov
 from mp4box.parsing.free import parse_free
 from mp4box.parsing.mdat import parse_mdat
 from mp4box.utils.stream_reader import StreamReader
+from mp4box.parsing.frame_generator import FrameGenerator
 from mp4box.utils.exceptions import InvalidBoxError
 
 class BoxParser:
     def __init__(self, file):
         self.reader = StreamReader(file)
         self.root = None
+        self.frame_gen = None
 
     def parse(self):
         if not self.root:
@@ -53,3 +55,13 @@ class BoxParser:
         out["is_fragmented"] = root.has_fragments()
         #out["is_progressive"] = not sure what this means
         out["has_iod"] = root.has_iods()
+
+    def get_frames(self, media_type):
+        #media_type can be either audio, video or both
+        if not self.root:
+            self.parse()
+
+        #TODO abhi: implement yielding a frame at a time
+        #should a class be created?
+        self.frame_gen = FrameGenerator(media_type, self.root.get_all_tracks(), self.root.mdats)
+        return self.frame_gen 

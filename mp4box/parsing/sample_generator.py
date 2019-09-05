@@ -38,7 +38,7 @@ class VideoSampleGenerator(SampleGenerator):
         self.mdat = mdat
     
     #TODO abhi: could this be common for audio as well?
-    def get(self):
+    def get_sample(self):
         self.reader.reset() #reset the file ptr to the beginning before we begin
         num_chunks = self.stbl.stco.entry_count
         i = 0
