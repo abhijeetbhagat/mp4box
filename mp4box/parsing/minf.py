@@ -11,11 +11,11 @@ def parse_minf(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'vmhd':
+        if type == 'vmhd':
             box.vmhd = parse_vmhd(reader, size)
-        elif type is 'dinf':
+        elif type == 'dinf':
             box.dinf = parse_dinf(reader, size)
-        elif type is 'stbl':
+        elif type == 'stbl':
             box.stbl = parse_stbl(reader, size)
         else:
             raise InvalidBoxError("type %s unknown" % type, None)

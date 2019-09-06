@@ -11,11 +11,11 @@ def parse_mdia(self, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'mdhd':
+        if type == 'mdhd':
             box.mdhd = parse_mdhd()
-        elif type is 'hdlr':
+        elif type == 'hdlr':
             box.hdlr = parse_hdlr()
-        elif type is 'minf':
+        elif type == 'minf':
             box.minf = parse_minf()
         else:
             raise InvalidBoxError("type % unknown")

@@ -9,9 +9,9 @@ def parse_avc1(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'avcC':
+        if type == 'avcC':
             box.avcc = parse_avcc(reader, size)
-        elif type is 'btrt':
+        elif type == 'btrt':
             box.btrt = parse_btrt(reader, size)
         else:
             raise InvalidBoxError("type % is unknown" % type, None)

@@ -8,7 +8,7 @@ def parse_dinf(reader, my_size):
     while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()
-        if type is 'dref':
+        if type == 'dref':
             box.dref = parse_dref()
         else:
             raise InvalidBoxError('type %s unknown' % type, None)

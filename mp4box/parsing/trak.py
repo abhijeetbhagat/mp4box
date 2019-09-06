@@ -11,11 +11,11 @@ def parse_trak(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'tkhd':
+        if type == 'tkhd':
             box.tkhd = parse_tkhd(reader, size)
-        elif type is 'edts':
+        elif type == 'edts':
             box.edts = parse_edts(reader, size)
-        elif type is 'mdia':
+        elif type == 'mdia':
             box.mdia = parse_mdia(reader, size)
         else:
             raise InvalidBoxError("type %s unknown")

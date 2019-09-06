@@ -15,19 +15,19 @@ def parse_stbl(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'stsd':
+        if type == 'stsd':
             box.stsd = parse_stsd(reader, size)
-        elif type is 'stts':
+        elif type == 'stts':
             box.stts = parse_stts(reader, size)
-        elif type is 'ctts':
+        elif type == 'ctts':
             box.ctts = parse_ctts(reader, size)
-        elif type is 'stss':
+        elif type == 'stss':
             box.stss = parse_stss(reader, size)
-        elif type is 'stsc':
+        elif type == 'stsc':
             box.stsc = parse_stsc(reader, size)
-        elif type is 'stsz':
+        elif type == 'stsz':
             box.stsz = parse_stsz(reader, size)
-        elif type is 'stco':
+        elif type == 'stco':
             box.stco = parse_stco(reader, size)
         else:
             raise InvalidBoxError()

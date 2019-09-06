@@ -8,7 +8,7 @@ def parse_edts(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'elst':
+        if type == 'elst':
             box.elts = parse_elst(self, size)
         else:
             raise InvalidBoxError("type %s unknown")

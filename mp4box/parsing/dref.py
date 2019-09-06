@@ -8,7 +8,7 @@ def parse_dref(reader, my_size):
     while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()
-        if type is 'url':
+        if type == 'url':
             #TODO abhi: not implemented right now
             #box.url = parse_url()
             raise NotImplementedError

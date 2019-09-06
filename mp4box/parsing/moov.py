@@ -10,11 +10,11 @@ def parse_moov(reader, my_size):
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size
-        if type is 'mvhd':
+        if type == 'mvhd':
             box.mvhd = parse_mvhd(reader, size)
-        elif type is 'trak': 
+        elif type == 'trak': 
             box.traks.append(parse_trak(reader, size))
-        elif type is 'iods': 
+        elif type == 'iods': 
             raise NotImplementedError
         else:
             raise InvalidBoxError("type %s unknown" % type, None)
