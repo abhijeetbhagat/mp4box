@@ -157,8 +157,8 @@ class EditBox(Box):
         self.elst = None
 
 class EditListBox(FullBox):
-    def __init__(self, size, v, f):
-        super().__init__(size, 'elst', 0, v, f)
+    def __init__(self, size, v):
+        super().__init__(size, 'elst', 0, v, 0)
         self.entry_count = 0
         self.segment_duration = []
         self.media_time = []
@@ -208,7 +208,7 @@ class DataEntryUrnBox(FullBox):
         self.location = None
 
 class SampleTableBox(Box):
-    def __init__(self, size, v, f):
+    def __init__(self, size):
         super().__init__(size, 'stbl')
         self.stsd = None
         self.stts = None
@@ -255,10 +255,25 @@ class AVCCConfigurationBox(Box):
 class AVC1Box(Box):
     def __init__(self, size):
         super().__init__(size, 'avc1')
+        self.data_ref_index = 0
+        self.vid_enc_version = 0
+        self.vid_enc_rev_lvl = 0
+        self.vid_enc_vendor = 0
+        self.vid_temporal_quality = 0
+        self.vid_spatial_quality = 0
+        self.vid_frame_pixel_size = 0
+        self.vid_resolution = 0
+        self.vid_data_size = 0
+        self.vid_frame_count = 0
+        self.vid_enc_name_len = 0
+        self.vid_enc_name = ""
+        self.vid_pixel_depth = 0
+        self.vid_color_tbl_id = 0
         self.avcc = None
         self.btrt = None
 
 class SampleDescriptionBox(FullBox):
     def __init__(self, size, v, f):
-        super().__init__(size, 'stsd', v, 0)
+        super().__init__(size, 'stsd', v, 0, f)
+        self.entry_count = 0
         self.avc1 = None
