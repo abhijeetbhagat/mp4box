@@ -21,7 +21,7 @@ class ISOFile:
         def __init__(self, id, user, track):
             super().__init__(id, user, trak)
 
-    def __init__(self, stream):
+    def __init__(self, file):
         #self.stream = stream if stream else StreamReader()
         self.boxes = []
         self.mdats = []
@@ -44,6 +44,7 @@ class ISOFile:
         self.on_sidx = None
         self.sidx_sent = False
         self.box_parser = BoxParser(file)
+        self.info = None
 
     def __entry__(self):
         pass
@@ -93,6 +94,11 @@ class ISOFile:
 
     def parse(self):
         self.box_parser.parse()
+
+    def get_all_info(self):
+        if self.info is None:
+            self.info = self.box_parser.get_all_info()
+        return self.info
 
     def frames(self, media_type):
         return self.box_parser.get_frames(media_type)
