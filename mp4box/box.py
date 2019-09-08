@@ -26,7 +26,29 @@ class RootBox():
         return self.moofs
 
     def get_all_tracks(self):
-        return self.moov.get_all_traks()
+        return self.moov.traks
+
+    def get_duration(self):
+        return self.moov.mvhd.duration
+
+    def get_timescale(self):
+        return self.moov.mvhd.timescale
+
+    def get_compatible_brands(self):
+        return self.ftyp.compatible_brands
+
+    def get_creation_time(self):
+        return self.moov.mvhd.creation_time
+
+    def get_modification_time(self):
+        return self.moov.mvhd.modification_time
+
+    def has_fragments(self):
+        return len(self.moofs) > 0
+
+    #out["is_progressive"] = not sure what this means
+    def has_iods(self):
+        return self.moov.iods is not None
 
 class FileTypeBox(Box):
     def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
@@ -221,6 +243,7 @@ class SampleTableBox(Box):
 class TrackBox(Box):
     def __init__(self, size):
         super().__init__(size, 'trak')
+        self.id = 0
         self.tkhd = None
         self.edts = None
         self.mdia = None
