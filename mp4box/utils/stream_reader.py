@@ -52,7 +52,7 @@ class StreamReader:
         return str(self.stream.read(n)[0:], 'utf-8', 'ignore')
 
     def skip(self, n: int):
-        self.stream.read(n)
+        self.stream.seek(self.current_pos() + n)
 
     def current_pos(self):
         return self.stream.tell()
