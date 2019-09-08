@@ -13,6 +13,7 @@ def parse_trak(reader, my_size):
         cnt += size
         if type == 'tkhd':
             box.tkhd = parse_tkhd(reader, size)
+            box.id = box.tkhd.track_id
         elif type == 'edts':
             box.edts = parse_edts(reader, size)
         elif type == 'mdia':
