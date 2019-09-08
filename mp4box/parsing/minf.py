@@ -6,7 +6,7 @@ from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_minf(reader, my_size):
     box = MediaInformationBox(my_size)
-    cnt = 0
+    cnt = 8
     while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()

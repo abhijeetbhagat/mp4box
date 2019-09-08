@@ -9,8 +9,8 @@ from mp4box.parsing.stco import parse_stco
 from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_stbl(reader, my_size):
-    box = SampleTableBox(my_size, )
-    cnt = 0
+    box = SampleTableBox(my_size)
+    cnt = 8
     while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()
@@ -30,6 +30,6 @@ def parse_stbl(reader, my_size):
         elif type == 'stco':
             box.stco = parse_stco(reader, size)
         else:
-            raise InvalidBoxError()
+            raise InvalidBoxError("type %s is unknown" % type, None)
 
     return box

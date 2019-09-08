@@ -1,8 +1,8 @@
 from mp4box.box import MediaHeaderBox
 
-def parse_mdhd(reader, size): 
+def parse_mdhd(reader, my_size): 
     version = reader.read32()
-    box = MediaHeaderBox(size, version, 0)
+    box = MediaHeaderBox(my_size, version, 0)
     if version == 0:
         box.creation_time = reader.read32()
         box.modification_time = reader.read32()

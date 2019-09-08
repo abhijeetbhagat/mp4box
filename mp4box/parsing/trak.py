@@ -5,8 +5,8 @@ from mp4box.parsing.mdia import parse_mdia
 from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_trak(reader, my_size):
-    box = TrackBox(reader, my_size)
-    cnt = 0
+    box = TrackBox(my_size)
+    cnt = 8
     while not reader.reached_eof() and cnt < my_size:
         size = reader.read32()
         type = reader.read32_as_str()
@@ -18,4 +18,6 @@ def parse_trak(reader, my_size):
         elif type == 'mdia':
             box.mdia = parse_mdia(reader, size)
         else:
-            raise InvalidBoxError("type %s unknown")
+            raise InvalidBoxError("type %s unknown" % type, None)
+
+    return box
