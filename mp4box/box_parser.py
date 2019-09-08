@@ -46,22 +46,22 @@ class BoxParser:
         #or something else. For now, just return a dict.
         out = {}
 
-        out["duration"] = root.get_duration()
-        out["timescale"] = root.get_timescale()
-        out["brands"] = root.get_compatible_brands()
-        out["created"] = root.get_creation_time()
-        out["modified"] = root.get_modification_time()
-        out["tracks"] = root.get_all_tracks()
-        out["is_fragmented"] = root.has_fragments()
+        out["duration"] = self.root.get_duration()
+        out["timescale"] = self.root.get_timescale()
+        out["brands"] = self.root.get_compatible_brands()
+        out["created"] = self.root.get_creation_time()
+        out["modified"] = self.root.get_modification_time()
+        out["tracks"] = self.root.get_all_tracks()
+        out["is_fragmented"] = self.root.has_fragments()
         #out["is_progressive"] = not sure what this means
-        out["has_iod"] = root.has_iods()
+        out["has_iod"] = self.root.has_iods()
+
+        return out
 
     def get_frames(self, media_type):
         #media_type can be either audio, video or both
         if not self.root:
             self.parse()
 
-        #TODO abhi: implement yielding a frame at a time
-        #should a class be created?
         self.frame_gen = FrameGenerator(media_type, self.root.get_all_tracks(), self.root.mdats)
         return self.frame_gen 
