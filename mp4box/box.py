@@ -35,7 +35,10 @@ class RootBox():
         return self.moov.mvhd.timescale
 
     def get_compatible_brands(self):
-        return self.ftyp.compatible_brands
+        if self.ftyp is None: #this could be a segment file
+            return self.styp.compatible_brands
+        else:
+            return self.ftyp.compatible_brands
 
     def get_creation_time(self):
         return self.moov.mvhd.creation_time
@@ -50,12 +53,20 @@ class RootBox():
     def has_iods(self):
         return self.moov.iods is not None
 
-class FileTypeBox(Box):
-    def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
-        super().__init__(size, 'ftyp')
+class TypeBox(Box):
+    def __init__(self, size, name, major_brand: int, minor_version: int, compatible_brands: [int]):
+        super().__init__(size, name)
         self.major_brand = major_brand
         self.minor_brand = minor_version
         self.compatible_brands = compatible_brands
+        
+class FileTypeBox(TypeBox):
+    def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
+        super().__init__(size, 'ftyp', major_brand, minor_version, compatible_brands)
+
+class SegmentTypeBox(TypeBox):
+    def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
+        super().__init__(size, 'styp', major_brand, minor_version, compatible_brands) 
 
 class MovieBox(Box):
     def __init__(self, size: int):

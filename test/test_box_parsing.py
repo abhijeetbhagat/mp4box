@@ -4,7 +4,8 @@ from tempfile import TemporaryFile
 from test import *
 from context import mp4box
 from mp4box.utils.stream_reader import StreamReader
-from mp4box.parsing.ftyp import *
+from mp4box.box import FileTypeBox
+from mp4box.parsing.typ import *
 from mp4box.parsing.stts import *
 from mp4box.parsing.stss import *
 from mp4box.parsing.stsc import *
@@ -25,7 +26,7 @@ class TestTopLevelBoxes(unittest.TestCase):
                 reader = StreamReader(f)
                 size = reader.read32()
                 _ = reader.read32()
-                ftyp = parse_ftyp(reader, size)
+                ftyp = parse_typ(reader, size, FileTypeBox)
                 self.assertNotEqual(ftyp, None)
                 self.assertEqual(ftyp.size, 24)
                 self.assertEqual(ftyp.major_brand, 'iso6')

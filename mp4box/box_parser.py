@@ -1,5 +1,7 @@
 from mp4box.box import RootBox
-from mp4box.parsing.ftyp import parse_ftyp
+from mp4box.box import FileTypeBox
+from mp4box.box import SegmentTypeBox
+from mp4box.parsing.typ import parse_typ
 from mp4box.parsing.moov import parse_moov
 from mp4box.parsing.free import parse_free
 from mp4box.parsing.mdat import parse_mdat
@@ -20,7 +22,9 @@ class BoxParser:
             type = self.reader.read32_as_str()
             while not self.reader.reached_eof():
                 if type == 'ftyp':
-                    self.root.ftyp = parse_ftyp(self.reader, size)
+                    self.root.ftyp = parse_typ(self.reader, size, FileTypeBox)
+                elif type == 'styp':
+                    self.root.styp = parse_typ(self.reader, size, SegmentTypeBox)
                 elif type == 'moov':
                     self.root.moov = parse_moov(self.reader, size)
                 elif type == 'free':
