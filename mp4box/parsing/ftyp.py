@@ -5,7 +5,7 @@ def parse_ftyp(reader, my_size):
     minor_version = reader.read32()
     compatible_brands = []
     cnt = 0
-    while cnt < my_size + 4 - 16 - 4:
+    while cnt < my_size - 16:
         compatible_brands.append(reader.read32_as_str())
         cnt += 4
     box = FileTypeBox(my_size, major_brand, minor_version, compatible_brands)
