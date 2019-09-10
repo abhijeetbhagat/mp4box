@@ -311,3 +311,72 @@ class SampleDescriptionBox(FullBox):
         super().__init__(size, 'stsd', v, 0, f)
         self.entry_count = 0
         self.avc1 = None
+
+class MovieFragmentBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'moof')
+        self.mfhd = None
+        self.traf = None
+
+class MovieFragmentHeaderBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'mfhd', 0, 0, 0)
+        self.sequence_num = 0
+
+class TrackFragmentBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'traf')
+        self.tfhd = None
+        self.tfdt = None
+        self.trun = None
+
+class TrackFragmentHeaderBox(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'tfhd', 0, 0, f)
+        self.track_id = 0
+        self.base_data_offset;
+        self.sample_description_index = 0
+        self.default_sample_duration = 0
+        self.default_sample_size = 0
+        self.default_sample_flag = 0
+
+class TrackFragmentDecodingTime(FullBox):
+    def __init__(self, size, v, f):
+        super().__init__(size, 'tfdt', 0, v, 0)
+        self.base_media_decode_time = 0
+
+class TrackRunBox(FullBox):
+    class Entry:
+        def __init__(self, sample_duration, sample_size, sample_flags):
+            self.sample_duration = 0
+            self.sample_size = 0
+            self.sample_flags = 0
+
+    def __init__(self, size, v, f):
+        super().__init__(size, 'trun', 0, v, f)
+        self.sample_count = 0
+        self.data_offset = 0
+        self.first_sample_flags = 0
+        self.entries = []
+
+class SegmentIndexBox(FullBox):
+    class Entry:
+        def __init__(self):
+            self.reference_type = 0
+            self.referenced_size = 0
+            self.subsegment_duration = 0
+            self.starts_with_SAP = 0
+            self.SAP_type = 0
+            self.SAP_delta_time = 0
+
+    def __init__(self, size, v, f):
+        super().__init__(size, 'sidx', 0, v, 0)
+        self.ref_id = 0
+        self.timescale = 0
+        self.earliest_presentation_time = 0
+        self.first_offset = 0
+        self.reserved = 0
+        self.reference_count = 0
+        self.entries = []
+
+
