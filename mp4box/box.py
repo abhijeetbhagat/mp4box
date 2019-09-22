@@ -345,12 +345,13 @@ class TrackFragmentDecodingTime(FullBox):
         super().__init__(size, 'tfdt', 0, v, 0)
         self.base_media_decode_time = 0
 
-class TrackRunBox(FullBox):
+class TrackFragmentRunBox(FullBox):
     class Entry:
         def __init__(self, sample_duration, sample_size, sample_flags):
             self.sample_duration = 0
             self.sample_size = 0
             self.sample_flags = 0
+            self.sample_composition_time_offset = 0
 
     def __init__(self, size, v, f):
         super().__init__(size, 'trun', 0, v, f)

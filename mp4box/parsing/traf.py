@@ -16,7 +16,7 @@ def parse_traf(reader, my_size):
         elif type == 'tfdt':
             box.tfdt = parse_tfdt(reader, size)
         elif type == 'trun':
-            box.trun = parse_trun(reader, size)
+            box.trun.append(parse_trun(reader, size))
         else:
             raise InvalidBoxError("type %s unknown" % type, None)
 
