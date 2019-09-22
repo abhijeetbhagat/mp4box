@@ -334,7 +334,7 @@ class TrackFragmentHeaderBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'tfhd', 0, 0, f)
         self.track_id = 0
-        self.base_data_offset;
+        self.base_data_offset = 0
         self.sample_description_index = 0
         self.default_sample_duration = 0
         self.default_sample_size = 0
