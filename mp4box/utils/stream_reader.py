@@ -24,7 +24,7 @@ class StreamReader:
             self.stream = None
 
     def reset(self):
-        self.seek(0)
+        self.stream.seek(0)
 
     def read8(self):
         #TODO abhi: umm do we need to do this?

@@ -21,6 +21,7 @@ class RootBox():
         self.sidxs = []
         self.moofs = []
         self.mdats = []
+        self.plep = None
 
     def has_fragments(self):
         return self.moofs
@@ -74,6 +75,7 @@ class MovieBox(Box):
         self.mvhd = None
         self.iods = None
         self.traks = []
+        self.udta = None
 
     def get_all_tracks(self):
         return self.traks
@@ -217,6 +219,7 @@ class MediaInformationBox(Box):
         self.vmhd = None
         self.dinf = None
         self.stbl = None
+        self.smhd = None
 
 class DataInformationBox(Box):
     def __init__(self, size):
@@ -251,6 +254,9 @@ class SampleTableBox(Box):
         self.stsz = None
         self.stco = None
 
+    def get_samples_count(self):
+        return self.stsz.sample_count
+
 class TrackBox(Box):
     def __init__(self, size):
         super().__init__(size, 'trak')
@@ -258,6 +264,7 @@ class TrackBox(Box):
         self.tkhd = None
         self.edts = None
         self.mdia = None
+        self.udta = None
         self.is_audio = False
         self.is_video = False
 
@@ -265,6 +272,12 @@ class TrackBox(Box):
         #TODO abhi: should trak know about minf, stbl
         #or should it ask mdia to get it?
         return self.mdia.minf.stbl
+
+    def get_samples_count(self):
+        sample_count = 0
+        stbl = self.get_stbl()
+        sample_count = stbl.get_samples_count()
+        return sample_count
 
 class MediaDataBox(Box):
     def __init__(self, size, offset):
@@ -305,12 +318,14 @@ class AVC1Box(Box):
         self.vid_color_tbl_id = 0
         self.avcc = None
         self.btrt = None
+        self.colr = None
 
 class SampleDescriptionBox(FullBox):
     def __init__(self, size, v, f):
         super().__init__(size, 'stsd', v, 0, f)
         self.entry_count = 0
         self.avc1 = None
+        self.mp4a = None
 
 class MovieFragmentBox(Box):
     def __init__(self, size):
@@ -380,4 +395,26 @@ class SegmentIndexBox(FullBox):
         self.reference_count = 0
         self.entries = []
 
+class ColourInformationBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'colr')
 
+class PixelAspectRatioBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'pasp')
+
+class UserDataBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'udta')
+
+class SoundMediaHeaderBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'smhd')
+
+class MP4AudioBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'mp4a')
+
+class PLEPBox(Box):
+    def __init__(self, size):
+        super().__init__(size, 'plep')

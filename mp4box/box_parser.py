@@ -5,8 +5,10 @@ from mp4box.parsing.typ import parse_typ
 from mp4box.parsing.moov import parse_moov
 from mp4box.parsing.free import parse_free
 from mp4box.parsing.mdat import parse_mdat
+from mp4box.parsing.plep import parse_plep
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.sample_generator import SampleGenerator
+from mp4box.parsing.nalu_generator import NALUGenerator
 from mp4box.utils.exceptions import InvalidBoxError
 
 class BoxParser:
@@ -31,6 +33,8 @@ class BoxParser:
                     self.root.free = parse_free(self.reader, size)
                 elif type == 'mdat':
                     self.root.mdats.append(parse_mdat(self.reader, size))
+                elif type == 'PLEP':
+                    self.root.plep = parse_plep(self.reader, size)
                 else:
                     raise InvalidBoxError("type %s unknown" % type, None)
                 if self.reader.reached_eof():
@@ -69,3 +73,8 @@ class BoxParser:
 
         self.frame_gen = FrameGenerator(media_type, self.root.get_all_tracks(), self.root.mdats)
         return self.frame_gen 
+
+    def get_nalu_gen(self, trak):
+        #TODO abhi: we can't just be using any mdat box
+        #However, for now, assume we are dealing with non fMP4 files
+        return NALUGenerator(self.reader, trak, self.root.mdats[0])

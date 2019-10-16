@@ -1,7 +1,6 @@
 import unittest
 from test import *
 from context import mp4box
-from mp4box.parsing.ftyp import *
 from mp4box.parsing.sample_generator import SampleGenerator
 from mp4box.parsing.sample_generator import VideoSampleGenerator
 from mp4box.utils.stream_reader import StreamReader

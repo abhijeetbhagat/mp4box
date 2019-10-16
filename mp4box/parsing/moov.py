@@ -2,6 +2,7 @@ from mp4box.box import MovieBox
 from mp4box.parsing.iods import parse_iods
 from mp4box.parsing.trak import parse_trak
 from mp4box.parsing.mvhd import parse_mvhd
+from mp4box.parsing.udta import parse_udta
 from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_moov(reader, my_size):
@@ -17,6 +18,8 @@ def parse_moov(reader, my_size):
             box.traks.append(parse_trak(reader, size))
         elif type == 'iods': 
             box.iods = parse_iods(reader, size)
+        elif type == 'udta':
+            box.udta = parse_udta(reader, size)
         else:
             raise InvalidBoxError("type %s unknown" % type, None)
 

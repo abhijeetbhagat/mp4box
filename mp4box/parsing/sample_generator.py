@@ -9,19 +9,38 @@ class SampleGenerator:
     def get_sample_count(self):
         f_o = self.stbl.stsc.first_chunk
         s_c = self.stbl.stsc.samples_per_chunk
+        lim = self.stbl.stsz.sample_count
         if self.stbl.stsc.entry_count > 1:
-            i = 0
             k = 0
-            while k < self.stbl.stco.entry_count:
-                yield s_c[i]
-                if i + 1 < self.stbl.stsc.entry_count:
-                    if f_o[i+1] - (k + 1) == 1: 
-                       i += 1
-                    k += 1
+            i = 0
+            j = i + 1
+            op1 = f_o[j]
+            op2 = f_o[i]
+            c = 0
+            #stsz table tells the total count of samples
+            while k < lim:
+                d = op1 - op2
+                v = s_c[c]
+               
+                if d == 1:
+                    i += 1
+                    j += 1
+                    if j >= len(f_o):
+                        op1 = lim
+                        c = len(s_c) - 1
+                    else:
+                        op2 = f_o[i]
+                        op1 = f_o[j]
+                        c += 1
                 else:
-                    break
+                    op2 += 1
+                yield v
+                k += 1
         else:
-            yield s_c[0]
+            #TODO abhi: fix me - we have the same loop above
+            while k < lim:
+                yield s_c[0]
+                k += 1
 
 class AudioSampleGenerator:
     def __init__(self, trak, mdat):
@@ -42,11 +61,12 @@ class VideoSampleGenerator(SampleGenerator):
         self.reader.reset() #reset the file ptr to the beginning before we begin
         num_chunks = self.stbl.stco.entry_count
         i = 0
+        samples_per_chunk = self.get_sample_count()
         for chunk_offset in self.stbl.stco.chunk_offsets:
             self.reader.skip(chunk_offset) #set the file ptr to the beginning of the chunk
-            samples_per_chunk = self.get_sample_count()
             
-            for _ in range(0, samples_per_chunk): 
+            lim = next(samples_per_chunk)
+            for _ in range(0, lim): 
                 sample_size = self.stbl.stsz.entry_size[i]
                 i += 1
                 sample = VideoSample(sample_size, self.reader)

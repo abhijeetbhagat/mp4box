@@ -1,6 +1,8 @@
 from mp4box.box import AVC1Box
 from mp4box.parsing.avcc import parse_avcc
 from mp4box.parsing.btrt import parse_btrt
+from mp4box.parsing.colr import parse_colr
+from mp4box.parsing.pasp import parse_pasp
 from mp4box.utils.exceptions import InvalidBoxError
 
 def parse_avc1(reader, my_size):
@@ -37,6 +39,10 @@ def parse_avc1(reader, my_size):
             box.avcc = parse_avcc(reader, size)
         elif type == 'btrt':
             box.btrt = parse_btrt(reader, size)
+        elif type == 'colr':
+            box.colr = parse_colr(reader, size)
+        elif type == 'pasp':
+            box.pasp = parse_pasp(reader, size)
         else:
             raise InvalidBoxError("type %s is unknown" % type, None)
 
