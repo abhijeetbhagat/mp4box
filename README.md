@@ -1,6 +1,6 @@
 # mp4box
 Python 3 port of the MP4Box tool. It is supposed to be a library for those who want to work with MP4 files:
-* fetching metadata, iterating over frames (in progress)
+* fetching metadata, iterating over frames (almost done)
 * segmentation and fragmentation (to be started)
 * track extraction (to be started)
 
