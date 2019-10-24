@@ -112,7 +112,7 @@ class ISOFile:
                     self.audio_trak = self.info['tracks'][1]
         return self.info
 
-    def get_video_nalus(self):
+    def get_video_nalu_gen(self):
         #TODO abhi: sigh! perhaps, get_nalu_gen() can figure out the
         #video trak? but it deals only with higher level boxes like
         #ftyp, moov, mdat et. al. So for now, we have to call
