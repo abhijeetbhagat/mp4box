@@ -57,6 +57,9 @@ class StreamReader:
     def current_pos(self):
         return self.stream.tell()
 
+    def goto_pos(self, pos):
+        self.stream.seek(pos)
+
     def reached_eof(self):
         #TODO abhi: should calculate size of the file in the ctor and
         #check if tell() has crossed it

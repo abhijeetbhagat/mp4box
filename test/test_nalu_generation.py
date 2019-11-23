@@ -1,4 +1,5 @@
 import unittest
+import os
 from test import *
 from context import mp4box
 from mp4box.utils.stream_reader import StreamReader
@@ -10,7 +11,7 @@ class TestNALUGeneration(unittest.TestCase):
         iso_file = ISOFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), "output_squirrel.mp4"))
         iso_file.parse()
         #TODO abhi: this should be ...get_vid_nalu_gen().get_nalu()
-        for nalu in iso_file.get_video_nalus().get_nalu():
+        for nalu in iso_file.get_video_nalu_gen().get_nalu():
             print(nalu.size)
 
     @unittest.skip("This is to test the decoding algo")

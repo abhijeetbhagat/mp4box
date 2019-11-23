@@ -78,6 +78,20 @@ class VideoSampleGenerator(SampleGenerator):
             #TODO abhi: see if we can avoid this?
             self.reader.reset()
 
+    def get_sample_sizes(self):
+        i = 0
+        samples_per_chunk = self.get_sample_count()
+        for chunk_offset in self.stbl.stco.chunk_offsets:
+            self.reader.skip(chunk_offset) #set the file ptr to the beginning of the chunk
+            lim = next(samples_per_chunk)
+            for _ in range(0, lim): 
+                sample_size = self.stbl.stsz.entry_size[i]
+                i += 1
+                yield sample_size
+
+    def get_generator_pos(self):
+        return self.reader.current_pos()
+
     def get_sync_sample(self, n):
         self.reader.reset() #reset the file ptr to the beginning before we begin
         j = 0
