@@ -1,7 +1,8 @@
 import unittest
 import os
+import itertools
 from test import *
-from context import mp4box
+from test.context import mp4box
 from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.nalu_generator import NALUGenerator
 from mp4box.isofile import ISOFile
@@ -10,9 +11,12 @@ class TestNALUGeneration(unittest.TestCase):
     def test_sample_count_generation(self):
         iso_file = ISOFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), "output_squirrel.mp4"))
         iso_file.parse()
-        #TODO abhi: this should be ...get_vid_nalu_gen().get_nalu()
-        for nalu in iso_file.get_video_nalu_gen().get_nalu():
-            print(nalu.size)
+        top5_nals = list(itertools.islice(iso_file.get_video_nalu_gen().get_nalu(), 5))
+        self.assertEqual(top5_nals[0].size, 751)
+        self.assertEqual(top5_nals[1].size, 160200)
+        self.assertEqual(top5_nals[2].size, 68102)
+        self.assertEqual(top5_nals[3].size, 9498)
+        self.assertEqual(top5_nals[4].size, 5513)
 
     @unittest.skip("This is to test the decoding algo")
     def test_rle_decoding(self):

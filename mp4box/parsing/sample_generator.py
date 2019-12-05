@@ -1,4 +1,5 @@
 from mp4box.utils.sample import VideoSample
+from mp4box.utils.stream_reader import StreamReader
 
 #SampleGenerator should work with both stbls and truns
 #It should work with one mdat at a time.
@@ -10,8 +11,8 @@ class SampleGenerator:
         f_o = self.stbl.stsc.first_chunk
         s_c = self.stbl.stsc.samples_per_chunk
         lim = self.stbl.stsz.sample_count
+        k = 0
         if self.stbl.stsc.entry_count > 1:
-            k = 0
             i = 0
             j = i + 1
             op1 = f_o[j]
@@ -50,7 +51,7 @@ class AudioSampleGenerator:
         pass
 
 class VideoSampleGenerator(SampleGenerator):
-    def __init__(self, reader, trak, mdat):
+    def __init__(self, reader : StreamReader, trak, mdat):
         super().__init__(trak.get_stbl())
         self.reader = reader
         self.stbl = trak.get_stbl()

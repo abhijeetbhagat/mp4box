@@ -1,10 +1,11 @@
 from mp4box.utils.nalu import NALU
 from mp4box.parsing.sample_generator import VideoSampleGenerator
+from mp4box.utils.stream_reader import StreamReader
 
 #SampleGenerator should work with both stbls and truns
 #It should work with one mdat at a time.
 class NALUGenerator:
-    def __init__(self, reader, trak, mdat):
+    def __init__(self, reader: StreamReader, trak, mdat):
         self.vid_sample_gen = VideoSampleGenerator(reader, trak, mdat) 
         self.reader = reader
 

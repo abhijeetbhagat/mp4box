@@ -1,7 +1,7 @@
 import unittest
 import os
 from test import *
-from context import mp4box
+from test.context import mp4box
 from mp4box.box_parser import BoxParser
 
 class TestBoxParser(unittest.TestCase):
