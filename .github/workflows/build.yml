@@ -25,6 +25,8 @@ jobs:
         python -m unittest
 
     - name: Code coverage
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         pip install coverage
         pip install coveralls
