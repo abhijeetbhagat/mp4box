@@ -99,7 +99,7 @@ class VideoSampleGenerator(SampleGenerator):
         k = 0
         for chunk_offset in self.stbl.stco.chunk_offsets:
             self.reader.skip(chunk_offset)
-            samples_per_chunk = get_sample_count()
+            samples_per_chunk = self.get_sample_count()
             for _ in range(0, samples_per_chunk):
                 if  j == self.stbl.stss.sample_num[k]:
                     sample_size = self.stbl.stsz.entry_size[k]

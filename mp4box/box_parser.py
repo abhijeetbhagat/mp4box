@@ -71,8 +71,11 @@ class BoxParser:
         if not self.root:
             self.parse()
 
-        self.frame_gen = FrameGenerator(media_type, self.root.get_all_tracks(), self.root.mdats)
-        return self.frame_gen 
+        #TODO abhi: Implement a FrameGenerator
+        #self.frame_gen = FrameGenerator(media_type, self.root.get_all_tracks(), self.root.mdats)
+        #return self.frame_gen 
+
+        return None
 
     def get_nalu_gen(self, trak):
         #TODO abhi: we can't just be using any mdat box

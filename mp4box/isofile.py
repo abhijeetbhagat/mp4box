@@ -18,7 +18,7 @@ class ISOFile:
             self.rap_alignment = True
 
     class ExtractedTrack(Track):
-        def __init__(self, id, user, track):
+        def __init__(self, id, user, trak):
             super().__init__(id, user, trak)
 
     def __init__(self, file):
@@ -53,46 +53,6 @@ class ISOFile:
 
     def __exit__(self, type, val, tb):
         pass
-
-    def set_segment_options(self, id, user, options):
-        trak = self.get_track_id(id)
-        if trak:
-            trak.next_sample = 0
-            frag_trak = ISOFile.FragmentedTrack(id, user, trak)
-            self.fragmented_tracks.append(frag_trak)
-            if options:
-                if options.nb_subsamples:
-                    frag_trak.nb_samples = options.nb_samples 
-                if options.rap_alignment:
-                    frag_trak.rap_alignement = options.rap_alignment 
-
-    def unset_segment_options(self, id):
-        index = -1
-        for i in range(len(self.fragmented_tracks)):
-            frag_trak = self.fragmented_tracks[i]
-            if frag_trak.id is id:
-                index = i
-                break
-        self.fragmented_tracks.pop(index)
-
-    def set_extraction_options(self, id, user, options):
-        trak = self.get_track_id(id)
-        if trak:
-            trak.next_sample = 0
-            extracted_trak = ISOFile.ExtractedTrack(id, user, trak)
-            self.extracted_tracks.append(extracted_track)
-            if options:
-                if options.nb_subsamples:
-                    extracted_trak.nb_samples = options.nb_samples 
-
-    def unset_extraction_options(self, id):
-        index = -1
-        for i in range(len(self.extracted_tracks)):
-            extracted_trak = self.extracted_tracks[i]
-            if extracted_trak.id is id:
-                index = i
-                break
-        self.extracted_tracks.pop(index)
 
     def parse(self):
         self.box_parser.parse()
