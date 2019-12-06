@@ -23,3 +23,10 @@ jobs:
     - name: Test with unittest
       run: |
         python -m unittest
+
+    - name: Code coverage
+      run: |
+        pip install coverage
+        pip install coveralls
+        coverage run -m unittest
+        coveralls
