@@ -1,3 +1,5 @@
+![](https://github.com/abhijeetbhagat/mp4box/workflows/build/badge.svg)
+
 # mp4box
 Python 3 port of the MP4Box tool. It is supposed to be a library for those who want to work with MP4 files:
 * fetching metadata, iterating over frames (almost done)
