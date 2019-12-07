@@ -1,5 +1,5 @@
 ![](https://github.com/abhijeetbhagat/mp4box/workflows/build/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/abhijeetbhagat/mp4box/badge.svg)](https://coveralls.io/github/abhijeetbhagat/mp4box)
+[![codecov](https://codecov.io/gh/abhijeetbhagat/mp4box/branch/master/graph/badge.svg)](https://codecov.io/gh/abhijeetbhagat/mp4box)
 
 # mp4box
 Python 3 port of the MP4Box tool. It is supposed to be a library for those who want to work with MP4 files:
