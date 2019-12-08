@@ -1,5 +1,6 @@
 import unittest
 import os
+from pathlib import Path
 from tempfile import TemporaryFile
 from test import *
 from test.context import mp4box
@@ -121,7 +122,7 @@ class TestSampleTables(unittest.TestCase):
 
     def test_ctts(self):
         with StreamReader(
-            os.path.dirname(os.path.realpath(__file__)) + "\ctts_data.txt"
+            Path(os.path.dirname(os.path.realpath(__file__))) / "ctts_data.txt"
         ) as r:
             size = r.read32()
             _ = r.read32()
@@ -135,7 +136,7 @@ class TestSampleTables(unittest.TestCase):
 
     def test_stsz(self):
         with StreamReader(
-            os.path.dirname(os.path.realpath(__file__)) + "\stsz_data.txt"
+            Path(os.path.dirname(os.path.realpath(__file__))) / "stsz_data.txt"
         ) as r:
             size = r.read32()
             _ = r.read32()

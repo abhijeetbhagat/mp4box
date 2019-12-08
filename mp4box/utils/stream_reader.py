@@ -1,10 +1,11 @@
 import os
+from pathlib import Path
 from io import BufferedReader
 
 
 class StreamReader:
     def __init__(self, file):
-        if isinstance(file, str):
+        if isinstance(file, str) or isinstance(file, Path):
             self.stream = open(file, "rb")
         else:
             self.stream = file
