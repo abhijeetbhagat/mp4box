@@ -1,5 +1,6 @@
 from mp4box.box import ChunkOffsetBox
 
+
 def parse_stco(reader, size):
     version = reader.read32()
     box = ChunkOffsetBox(size, version, 0)

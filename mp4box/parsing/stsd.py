@@ -3,6 +3,7 @@ from mp4box.parsing.avc1 import parse_avc1
 from mp4box.parsing.mp4a import parse_mp4a
 from mp4box.utils.exceptions import InvalidBoxError
 
+
 def parse_stsd(reader, my_size):
     version = reader.read32()
     box = SampleDescriptionBox(my_size, version, 0)

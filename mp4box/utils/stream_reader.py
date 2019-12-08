@@ -1,6 +1,7 @@
 import os
 from io import BufferedReader
 
+
 class StreamReader:
     def __init__(self, file):
         if isinstance(file, str):
@@ -27,7 +28,7 @@ class StreamReader:
         self.stream.seek(0)
 
     def read8(self):
-        #TODO abhi: umm do we need to do this?
+        # TODO abhi: umm do we need to do this?
         return int.from_bytes(self.stream.read(1), "big")
 
     def read16(self):
@@ -37,10 +38,10 @@ class StreamReader:
         return int.from_bytes(self.stream.read(4), "big")
 
     def read32_as_str(self):
-        return str(self.stream.read(4)[0:], 'utf-8')
+        return str(self.stream.read(4)[0:], "utf-8")
 
     def read64(self):
-        return int.from_bytes(self.stream.read(8), "big") 
+        return int.from_bytes(self.stream.read(8), "big")
 
     def readn(self, n: int):
         return self.stream.read(n)
@@ -49,7 +50,7 @@ class StreamReader:
         return int.from_bytes(self.stream.read(n), "big")
 
     def readn_as_str(self, n):
-        return str(self.stream.read(n)[0:], 'utf-8', 'ignore')
+        return str(self.stream.read(n)[0:], "utf-8", "ignore")
 
     def skip(self, n: int):
         self.stream.seek(self.current_pos() + n)
@@ -61,6 +62,6 @@ class StreamReader:
         self.stream.seek(pos)
 
     def reached_eof(self):
-        #TODO abhi: should calculate size of the file in the ctor and
-        #check if tell() has crossed it
-        return self.stream.peek(1) == b''
+        # TODO abhi: should calculate size of the file in the ctor and
+        # check if tell() has crossed it
+        return self.stream.peek(1) == b""

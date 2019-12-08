@@ -1,5 +1,6 @@
 from mp4box.box import CompositionTimeToSampleBox
 
+
 def parse_ctts(reader, my_size):
     version = reader.read32()
     box = CompositionTimeToSampleBox(my_size, version, 0)

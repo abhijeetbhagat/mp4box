@@ -10,16 +10,17 @@ from mp4box.box import SampleSizeBox
 from mp4box.box import ChunkOffsetBox
 from mp4box.box import SyncSampleBox
 
+
 class TestSampleGeneration(unittest.TestCase):
     def test_sample_count_generation(self):
         stbl = SampleTableBox(0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 3
         stbl.stsc.entry_count = 3
-        stbl.stsc.first_chunk = [1,2,3]
-        stbl.stsc.samples_per_chunk = [1,1,1]
-        stbl.stsz = SampleSizeBox(0,0,0)
+        stbl.stsc.first_chunk = [1, 2, 3]
+        stbl.stsc.samples_per_chunk = [1, 1, 1]
+        stbl.stsz = SampleSizeBox(0, 0, 0)
         stbl.stsz.sample_count = 3
         fg = SampleGenerator(stbl)
         g = fg.get_sample_count()
@@ -29,13 +30,13 @@ class TestSampleGeneration(unittest.TestCase):
 
     def test_sample_count_generation_2(self):
         stbl = SampleTableBox(0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 3
         stbl.stsc.entry_count = 3
-        stbl.stsc.first_chunk = [1,2,3]
-        stbl.stsc.samples_per_chunk = [6,7,8]
-        stbl.stsz = SampleSizeBox(0,0,0)
+        stbl.stsc.first_chunk = [1, 2, 3]
+        stbl.stsc.samples_per_chunk = [6, 7, 8]
+        stbl.stsz = SampleSizeBox(0, 0, 0)
         stbl.stsz.sample_count = 3
         fg = SampleGenerator(stbl)
         g = fg.get_sample_count()
@@ -45,13 +46,13 @@ class TestSampleGeneration(unittest.TestCase):
 
     def test_sample_count_generation_3(self):
         stbl = SampleTableBox(0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 8
         stbl.stsc.entry_count = 3
-        stbl.stsc.first_chunk = [1,2,8]
-        stbl.stsc.samples_per_chunk = [1,2,3]
-        stbl.stsz = SampleSizeBox(0,0,0)
+        stbl.stsc.first_chunk = [1, 2, 8]
+        stbl.stsc.samples_per_chunk = [1, 2, 3]
+        stbl.stsz = SampleSizeBox(0, 0, 0)
         stbl.stsz.sample_count = 8
         fg = SampleGenerator(stbl)
         g = fg.get_sample_count()
@@ -67,13 +68,13 @@ class TestSampleGeneration(unittest.TestCase):
 
     def test_sample_count_generation_4(self):
         stbl = SampleTableBox(0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 1
         stbl.stsc.entry_count = 1
         stbl.stsc.first_chunk = [1]
         stbl.stsc.samples_per_chunk = [1]
-        stbl.stsz = SampleSizeBox(0,0,0)
+        stbl.stsz = SampleSizeBox(0, 0, 0)
         stbl.stsz.sample_count = 1
         fg = SampleGenerator(stbl)
         g = fg.get_sample_count()
@@ -83,8 +84,8 @@ class TestSampleGeneration(unittest.TestCase):
     @unittest.skip("Do not test until integration tests are done")
     def test_video_sample_generation(self):
         stbl = SampleTableBox(0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 1
         stbl.stsc.entry_count = 1
         stbl.stsc.first_chunk = [1]
@@ -96,9 +97,9 @@ class TestSampleGeneration(unittest.TestCase):
 
     @unittest.skip("Do not test until integration tests are done")
     def test_sync_sample(self):
-        stbl = SampleTableBox(0,0,0)
-        stbl.stsc = SampleToChunkBox(0,0,0)
-        stbl.stco = ChunkOffsetBox(0,0,0) 
+        stbl = SampleTableBox(0, 0, 0)
+        stbl.stsc = SampleToChunkBox(0, 0, 0)
+        stbl.stco = ChunkOffsetBox(0, 0, 0)
         stbl.stco.entry_count = 4
         stbl.stsc.entry_count = 3
         stbl.stsc.first_chunk = [1, 2, 58]
@@ -106,6 +107,7 @@ class TestSampleGeneration(unittest.TestCase):
         stbl.stss = SyncSampleBox(0, 0, 0)
         stbl.stss.entry_count = 4
         stbl.stss.sample_number = [1, 49, 97]
+
 
 if __name__ == "__main__":
     unittest.main()

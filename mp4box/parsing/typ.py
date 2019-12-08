@@ -1,4 +1,3 @@
-
 def parse_typ(reader, my_size, klass):
     major_brand = reader.read32_as_str()
     minor_version = reader.read32()

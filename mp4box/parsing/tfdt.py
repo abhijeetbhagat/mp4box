@@ -1,5 +1,6 @@
 from mp4box.box import TrackFragmentDecodingTime
 
+
 def parse_tfdt(reader, my_size):
     version = reader.read32()
     box = TrackFragmentDecodingTime(my_size, version, 0)

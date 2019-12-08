@@ -7,9 +7,14 @@ from mp4box.utils.stream_reader import StreamReader
 from mp4box.parsing.nalu_generator import NALUGenerator
 from mp4box.isofile import ISOFile
 
+
 class TestNALUGeneration(unittest.TestCase):
     def test_sample_count_generation(self):
-        iso_file = ISOFile(os.path.join(os.path.dirname(os.path.realpath(__file__)), "output_squirrel.mp4"))
+        iso_file = ISOFile(
+            os.path.join(
+                os.path.dirname(os.path.realpath(__file__)), "output_squirrel.mp4"
+            )
+        )
         iso_file.parse()
         top5_nals = list(itertools.islice(iso_file.get_video_nalu_gen().get_nalu(), 5))
         self.assertEqual(top5_nals[0].size, 751)
@@ -31,7 +36,7 @@ class TestNALUGeneration(unittest.TestCase):
         while k < 688:
             d = op1 - op2
             v = b[c]
-           
+
             if d == 1:
                 i += 1
                 j += 1
@@ -46,6 +51,7 @@ class TestNALUGeneration(unittest.TestCase):
                 op2 += 1
             print(v)
             k += 1
+
 
 if __name__ == "__main__":
     unittest.main()

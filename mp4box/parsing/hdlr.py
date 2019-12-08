@@ -1,5 +1,6 @@
 from mp4box.box import HandlerBox
 
+
 def parse_hdlr(reader, size):
     version = reader.read32()
     box = HandlerBox(size, version, 0)
