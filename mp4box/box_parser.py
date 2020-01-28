@@ -54,6 +54,8 @@ class BoxParser:
         # TODO abhi: not sure if the metadata should be structured as a dict
         # or something else. For now, just return a dict.
         out = {}
+        if self.root is None:
+            self.parse()
 
         out["duration"] = self.root.get_duration()
         out["timescale"] = self.root.get_timescale()
