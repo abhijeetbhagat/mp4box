@@ -15,8 +15,12 @@ def parse_avc1(reader, my_size):
     box.vid_enc_vendor = reader.read32_as_str()
     box.vid_temporal_quality = reader.read32()
     box.vid_spatial_quality = reader.read32()
-    box.vid_frame_pixel_size = reader.read32()
-    box.vid_resolution = reader.read64()
+    # box.vid_frame_pixel_size = reader.read32()
+    # box.vid_resolution = reader.read64()
+    box.vid_width = reader.read16()
+    box.vid_height = reader.read16()
+    box.vid_horiz_resolution = reader.read32()
+    box.vid_vert_resolution = reader.read32()
     box.vid_data_size = reader.read32()
     box.vid_frame_count = reader.read16()
     box.vid_enc_name_len = reader.read8()
@@ -32,7 +36,12 @@ def parse_avc1(reader, my_size):
 
     cnt = 86  # avc1 len + name + number of bytes parsed above
 
-    while not reader.reached_eof() and cnt < my_size:
+    while not reader.reached_eof():
+        # Encountered a problem,At the end ， only 4 bytes are left,
+        # which does not meet the fourcc standard, just skip it at this time
+        if cnt > my_size - 8:
+            reader.skip(my_size - cnt)
+            break
         size = reader.read32()
         type = reader.read32_as_str()
         cnt += size

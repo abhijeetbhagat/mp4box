@@ -58,9 +58,7 @@ class RootBox:
 
 
 class TypeBox(Box):
-    def __init__(
-        self, size, name, major_brand: int, minor_version: int, compatible_brands: [int]
-    ):
+    def __init__(self, size, name, major_brand: int, minor_version: int, compatible_brands: [int]):
         super().__init__(size, name)
         self.major_brand = major_brand
         self.minor_brand = minor_version
@@ -68,16 +66,12 @@ class TypeBox(Box):
 
 
 class FileTypeBox(TypeBox):
-    def __init__(
-        self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]
-    ):
+    def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
         super().__init__(size, "ftyp", major_brand, minor_version, compatible_brands)
 
 
 class SegmentTypeBox(TypeBox):
-    def __init__(
-        self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]
-    ):
+    def __init__(self, size: int, major_brand: int, minor_version: int, compatible_brands: [int]):
         super().__init__(size, "styp", major_brand, minor_version, compatible_brands)
 
 
@@ -346,7 +340,11 @@ class AVC1Box(Box):
         self.vid_enc_vendor = 0
         self.vid_temporal_quality = 0
         self.vid_spatial_quality = 0
-        self.vid_frame_pixel_size = 0
+        # self.vid_frame_pixel_size = 0
+        self.vid_width = 0
+        self.vid_height = 0
+        self.vid_horiz_resolution = 0
+        self.vid_vert_resolution = 0
         self.vid_resolution = 0
         self.vid_data_size = 0
         self.vid_frame_count = 0

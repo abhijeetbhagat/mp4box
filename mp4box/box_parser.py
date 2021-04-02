@@ -23,6 +23,10 @@ class BoxParser:
             self.root = RootBox()
             size = self.reader.read32()
             type = self.reader.read32_as_str()
+            head_size = 8
+            if size == 1:
+                size = self.reader.read64()
+                head_size = 16
             while not self.reader.reached_eof():
                 if type == "ftyp":
                     self.root.ftyp = parse_typ(self.reader, size, FileTypeBox)
@@ -33,7 +37,7 @@ class BoxParser:
                 elif type == "free":
                     self.root.free = parse_free(self.reader, size)
                 elif type == "mdat":
-                    self.root.mdats.append(parse_mdat(self.reader, size))
+                    self.root.mdats.append(parse_mdat(self.reader, size, head_size))
                 elif type == "PLEP":
                     self.root.plep = parse_plep(self.reader, size)
                 else:
@@ -44,7 +48,10 @@ class BoxParser:
                 # ready to read the size and type of the next box
                 size = self.reader.read32()
                 type = self.reader.read32_as_str()
-
+                head_size = 8
+                if size == 1:
+                    size = self.reader.read64()
+                    head_size = 16
             # Either box parsing was successful or it has errors
 
     def get_tree(self):
